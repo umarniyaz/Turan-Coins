@@ -36,7 +36,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 conn.commit()
             conn.close()
     
-    webapp_url = "https://turancoin.com/miniapp"  # Geçici URL, sonra değişecek
+    webapp_url = "https://turan-coins.onrender.com"  # Geçici URL, sonra değişecek
     
     await update.message.reply_text(
         f"🪙 *Turan Coin'e Hoş Geldin {first_name}!*\n\n"
@@ -52,7 +52,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = query.from_user.id
     
     if query.data == "main_menu":
-        webapp_url = "https://turancoin.com/miniapp"
+        webapp_url = "https://turan-coins.onrender.com"
         await query.edit_message_text(
             "🪙 *Ana Menü*\n\n👇 Başlamak için Mini App'i aç:",
             reply_markup=start_keyboard(webapp_url),

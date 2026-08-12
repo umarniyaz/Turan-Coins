@@ -3,8 +3,10 @@ tg.expand();
 
 const user = tg.initDataUnsafe?.user || {};
 const firstName = user.first_name || 'Kullanıcı';
+const userId = user.id || 0;
 
-// Elementler
+const API_URL = 'https://turancoin-bot.onrender.com';
+
 const greetingEl = document.getElementById('greeting');
 const usernameEl = document.getElementById('username');
 const coinBalanceEl = document.getElementById('coinBalance');
@@ -19,14 +21,12 @@ const premiumCard = document.getElementById('premiumCard');
 const premiumIcon = document.getElementById('premiumIcon');
 const coinRain = document.getElementById('coinRain');
 
-// Değişkenler
 let coinBalance = 0;
 let adsWatched = 0;
 let isPremium = false;
 const DAILY_LIMIT = 50;
 const DAILY_TARGET_TL = 5;
 
-// Selamlama
 const hour = new Date().getHours();
 let greeting = 'Günaydın';
 if (hour >= 12 && hour < 18) greeting = 'İyi günler';
@@ -34,7 +34,6 @@ if (hour >= 18) greeting = 'İyi akşamlar';
 greetingEl.textContent = greeting;
 usernameEl.textContent = firstName;
 
-// Zamanlayıcı - gece yarısına kalan süre
 function updateTimer() {
     const now = new Date();
     const midnight = new Date(now);
@@ -48,13 +47,11 @@ function updateTimer() {
 updateTimer();
 setInterval(updateTimer, 1000);
 
-// Bakiyeyi güncelle
 function updateBalance() {
     coinBalanceEl.textContent = coinBalance;
     const tlValue = isPremium ? (coinBalance * 0.5) : (coinBalance * 0.1);
     tlBalanceEl.textContent = tlValue.toFixed(2);
     
-    // İlerleme barı
     const earnedToday = isPremium ? (adsWatched * 0.5) : (adsWatched * 0.1);
     const percent = Math.min((earnedToday / DAILY_TARGET_TL) * 100, 100);
     progressFill.style.width = percent + '%';
@@ -73,7 +70,29 @@ function updateBalance() {
     }
 }
 
-// Coin yağmuru
+async function loadUserData() {
+    try {
+        const response = await fetch(API_URL + '/api/get_user', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                user_id: userId,
+                username: user.username || '',
+                first_name: firstName
+            })
+        });
+        const data = await response.json();
+        if (data.success) {
+            coinBalance = data.balance || 0;
+            adsWatched = data.ads_watched_today || 0;
+            isPremium = data.is_premium || false;
+            updateBalance();
+        }
+    } catch (e) {
+        console.log('API bağlantı hatası');
+    }
+}
+
 function spawnCoinRain() {
     for (let i = 0; i < 10; i++) {
         setTimeout(() => {
@@ -88,56 +107,72 @@ function spawnCoinRain() {
     }
 }
 
-// Reklam izleme
-watchAdBtn.addEventListener('click', () => {
+watchAdBtn.addEventListener('click', async () => {
     if (watchAdBtn.classList.contains('disabled')) return;
     
     watchAdBtn.innerHTML = '<span>⏳ Reklam İzleniyor...</span>';
     watchAdBtn.style.pointerEvents = 'none';
     
-    setTimeout(() => {
-        coinBalance += 1;
-        adsWatched += 1;
-        
-        spawnCoinRain();
-        updateBalance();
+    setTimeout(async () => {
+        try {
+            const response = await fetch(API_URL + '/api/add_coins', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    user_id: userId,
+                    coins: 1
+                })
+            });
+            const data = await response.json();
+            if (data.success) {
+                coinBalance = data.new_balance;
+                adsWatched += 1;
+                spawnCoinRain();
+                updateBalance();
+                tg.HapticFeedback.notificationOccurred('success');
+            }
+        } catch (e) {
+            console.log('Coin ekleme hatası');
+        }
         
         watchAdBtn.innerHTML = '<span class="btn-icon">▶</span><span>Reklam İzle & Kazan</span>';
         watchAdBtn.style.pointerEvents = 'auto';
-        
-        const earned = isPremium ? '0.5' : '0.1';
-        tg.HapticFeedback.notificationOccurred('success');
     }, 3000);
 });
 
-// Referans butonu
 document.getElementById('refBtn').addEventListener('click', () => {
     tg.showPopup({
         title: 'Arkadaş Davet Et',
-        message: 'Her davet için 100 coin kazan!\n\nLinkini paylaş, kazanmaya başla.',
+        message: 'Her davet için 100 coin kazan!',
         buttons: [{type: 'ok'}]
     });
 });
 
-// Çekim butonu
+document.getElementById('premiumBtn').addEventListener('click', () => {
+    tg.showPopup({
+        title: 'Premium',
+        message: 'Premium satın almak için: @TuranCoinDestek',
+        buttons: [{type: 'ok'}]
+    });
+});
+
 document.getElementById('withdrawBtn').addEventListener('click', () => {
     const tlValue = isPremium ? (coinBalance * 0.5) : (coinBalance * 0.1);
     if (tlValue < 50) {
         tg.showPopup({
             title: 'Yetersiz Bakiye',
-            message: 'Minimum çekim tutarı 50 TL. Daha fazla reklam izleyin.',
+            message: 'Minimum çekim tutarı 50 TL.',
             buttons: [{type: 'ok'}]
         });
     } else {
         tg.showPopup({
             title: 'Para Çek',
-            message: 'Çekim talebi için bot üzerinden IBAN\'ınızı gönderin.',
+            message: 'Çekim talebi için bot üzerinden IBAN gönderin.',
             buttons: [{type: 'ok'}]
         });
     }
 });
 
-// Premium test
 tg.MainButton.setText('👑 Premium Test');
 tg.MainButton.show();
 tg.MainButton.onClick(() => {
@@ -151,5 +186,5 @@ tg.MainButton.onClick(() => {
     });
 });
 
-updateBalance();
+loadUserData();
 tg.ready();

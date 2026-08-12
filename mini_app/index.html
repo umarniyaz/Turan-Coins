@@ -9,44 +9,111 @@
 </head>
 <body>
     <div class="app-container">
+        <!-- Header -->
         <div class="header">
-            <div class="logo">
-                <div class="logo-icon">₺</div>
-                <span class="logo-text">Turan Coin</span>
+            <div class="header-left">
+                <div class="greeting" id="greeting">Günaydın</div>
+                <div class="user-row">
+                    <span class="username" id="username">Kullanıcı</span>
+                    <span class="verified">✔</span>
+                </div>
             </div>
-            <div class="user-info">
-                <div class="user-avatar" id="userAvatar">U</div>
-                <div class="premium-badge" id="premiumBadge" style="display:none;">👑</div>
+            <div class="header-right">
+                <div class="currency-badge">TL</div>
+                <span class="premium-icon" id="premiumIcon" style="display:none;">👑</span>
             </div>
         </div>
 
-        <div class="balance-section">
+        <!-- Bakiye -->
+        <div class="balance-card">
             <div class="balance-label">Toplam Bakiye</div>
             <div class="balance-row">
                 <span class="balance-amount" id="coinBalance">0</span>
-                <span class="balance-coin">COIN</span>
+                <span class="balance-unit">COIN</span>
             </div>
-            <div class="balance-tl" id="tlBalance">0.00 TL</div>
+            <div style="font-size:16px;color:#F0B90B;font-weight:600;margin-top:4px;">
+                ≈ <span id="tlBalance">0.00</span> TL
+            </div>
         </div>
 
-        <div class="actions">
-            <button class="btn-primary" id="watchAdBtn">Reklam İzle</button>
-            <button class="btn-secondary" id="premiumBtn">👑</button>
+        <!-- Günlük İlerleme -->
+        <div class="progress-card">
+            <div class="progress-header">
+                <span class="progress-title">Günlük İlerleme</span>
+                <span class="progress-timer" id="progressTimer">Sıfırlanmasına: --:--:--</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width:0%;"></div>
+            </div>
+            <div class="progress-info">
+                <span id="progressEarned">0.00 TL</span>
+                <span id="progressTarget">5 TL</span>
+            </div>
+            <div style="font-size:11px;color:#444;margin-top:6px;">Bugün izlenen: <span id="adsWatched">0</span>/50</div>
         </div>
 
-        <div class="ad-info">
-            Bugün: <span id="adsWatched">0</span>/50
+        <!-- Ana Buton -->
+        <button class="main-button" id="watchAdBtn">
+            <span class="btn-icon">▶</span>
+            <span>Reklam İzle & Kazan</span>
+        </button>
+
+        <!-- Boost Kartları -->
+        <div class="boost-section">
+            <div class="boost-card" id="refBtn">
+                <div class="boost-icon">👥</div>
+                <div class="boost-title">Arkadaş Davet Et</div>
+                <div class="boost-reward">+100 Coin</div>
+                <div class="boost-detail">Davet başına</div>
+            </div>
+            <div class="boost-card" id="premiumBtn">
+                <div class="boost-icon">👑</div>
+                <div class="boost-title">Premium</div>
+                <div class="boost-reward">5 Kat Kazanç</div>
+                <div class="boost-detail">100 TL</div>
+            </div>
         </div>
 
+        <!-- Premium Aktif Kartı -->
         <div class="premium-card" id="premiumCard">
-            <div class="premium-title">👑 Premium Aktif</div>
+            <div class="premium-header">👑 Premium Aktif</div>
             <div class="premium-features">
-                <span>1 Coin = 0.5 TL</span>
-                <span>Sınırsız Reklam</span>
-                <span>İstanbulkart</span>
+                1 Coin = 0.5 TL &nbsp;|&nbsp; Sınırsız Reklam &nbsp;|&nbsp; İstanbulkart
             </div>
         </div>
 
+        <!-- Son Çekimler -->
+        <div class="withdrawals-card">
+            <div class="section-title">Son Çekimler</div>
+            <div class="withdrawal-item">
+                <div>
+                    <div class="withdrawal-user">***kullanici1</div>
+                    <div class="withdrawal-time">Bugün, 14:32</div>
+                </div>
+                <div class="withdrawal-amount">+75.00 TL</div>
+            </div>
+            <div class="withdrawal-item">
+                <div>
+                    <div class="withdrawal-user">***mehmet42</div>
+                    <div class="withdrawal-time">Bugün, 11:15</div>
+                </div>
+                <div class="withdrawal-amount">+120.50 TL</div>
+            </div>
+            <div class="withdrawal-item">
+                <div>
+                    <div class="withdrawal-user">***ayse01</div>
+                    <div class="withdrawal-time">Dün, 22:08</div>
+                </div>
+                <div class="withdrawal-amount">+50.00 TL</div>
+            </div>
+        </div>
+
+        <!-- Çekim Butonu -->
+        <button class="withdraw-button" id="withdrawBtn">Para Çek</button>
+        <div class="withdraw-info">Min. çekim: 50 TL &nbsp;|&nbsp; İşlem: 1-3 iş günü</div>
+        <div class="terms">Kullanım Koşulları</div>
+
+        <!-- Coin Rain -->
         <div class="coin-rain" id="coinRain"></div>
     </div>
 

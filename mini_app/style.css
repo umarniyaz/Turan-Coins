@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 * {
     margin: 0;
@@ -8,179 +8,330 @@
 
 body {
     font-family: 'Inter', -apple-system, sans-serif;
-    background: #0052FF;
-    min-height: 100vh;
+    background: #0D0D0D;
     color: #FFFFFF;
+    min-height: 100vh;
 }
 
 .app-container {
     max-width: 420px;
     margin: 0 auto;
-    padding: 20px 16px;
+    padding: 20px 16px 40px;
 }
 
+/* Header */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 0 24px;
+    margin-bottom: 24px;
 }
 
-.logo {
+.greeting {
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 2px;
+}
+
+.user-row {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 }
 
-.logo-icon {
-    width: 32px;
-    height: 32px;
-    background: #FFFFFF;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 16px;
-    color: #0052FF;
-}
-
-.logo-text {
+.username {
     font-size: 18px;
     font-weight: 700;
-    color: #FFFFFF;
 }
 
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.user-avatar {
-    width: 32px;
-    height: 32px;
-    background: rgba(255,255,255,0.2);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
+.verified {
+    color: #F0B90B;
     font-size: 14px;
 }
 
-.premium-badge {
-    font-size: 18px;
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.balance-section {
-    margin-bottom: 32px;
+.currency-badge {
+    background: #1A1A1A;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #F0B90B;
+}
+
+.premium-icon {
+    font-size: 20px;
+}
+
+/* Bakiye Kartı */
+.balance-card {
+    background: #1A1A1A;
+    border: 1px solid #2A2A2A;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
 }
 
 .balance-label {
-    font-size: 14px;
-    opacity: 0.7;
-    margin-bottom: 4px;
+    font-size: 12px;
+    color: #777;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
 }
 
 .balance-row {
     display: flex;
     align-items: baseline;
-    gap: 4px;
-    margin-bottom: 16px;
+    gap: 6px;
 }
 
 .balance-amount {
-    font-size: 56px;
+    font-size: 42px;
     font-weight: 800;
-    letter-spacing: -2px;
+    letter-spacing: -1px;
 }
 
-.balance-coin {
-    font-size: 20px;
-    opacity: 0.7;
-}
-
-.balance-tl {
-    font-size: 18px;
-    opacity: 0.8;
+.balance-unit {
+    font-size: 16px;
+    color: #777;
     font-weight: 500;
 }
 
-.actions {
+/* Günlük İlerleme */
+.progress-card {
+    background: #1A1A1A;
+    border: 1px solid #2A2A2A;
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+}
+
+.progress-header {
     display: flex;
-    gap: 10px;
-    margin-bottom: 24px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
 }
 
-.btn-primary {
-    flex: 1;
-    padding: 14px;
-    background: #FFFFFF;
-    color: #0052FF;
-    border: none;
-    border-radius: 12px;
-    font-size: 15px;
+.progress-title {
+    font-size: 13px;
+    color: #999;
+}
+
+.progress-timer {
+    font-size: 13px;
+    color: #F0B90B;
     font-weight: 600;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: #2A2A2A;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #F0B90B, #F8D33A);
+    border-radius: 3px;
+    transition: width 0.3s;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #666;
+}
+
+/* Ana Buton */
+.main-button {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, #F0B90B, #F8D33A);
+    border: none;
+    border-radius: 16px;
+    color: #0D0D0D;
+    font-size: 17px;
+    font-weight: 700;
     cursor: pointer;
     font-family: 'Inter', sans-serif;
+    margin-bottom: 20px;
     transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
-.btn-primary:active {
+.main-button:active {
     transform: scale(0.97);
+    opacity: 0.9;
 }
 
-.btn-secondary {
-    padding: 14px 18px;
-    background: rgba(255,255,255,0.15);
-    color: #FFFFFF;
-    border: none;
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: 'Inter', sans-serif;
-}
-
-.btn-secondary:active {
-    background: rgba(255,255,255,0.25);
-}
-
-.btn-primary.disabled {
-    opacity: 0.4;
+.main-button.disabled {
+    background: #2A2A2A;
+    color: #555;
     pointer-events: none;
 }
 
+.main-button .btn-icon {
+    font-size: 20px;
+}
+
+/* Boost Kartları */
+.boost-section {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.boost-card {
+    flex: 1;
+    background: #1A1A1A;
+    border: 1px solid #2A2A2A;
+    border-radius: 14px;
+    padding: 14px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.boost-card:active {
+    background: #222;
+}
+
+.boost-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.boost-title {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.boost-reward {
+    font-size: 16px;
+    font-weight: 700;
+    color: #F0B90B;
+}
+
+.boost-detail {
+    font-size: 11px;
+    color: #666;
+    margin-top: 2px;
+}
+
+/* Premium Kart */
 .premium-card {
-    background: rgba(255,255,255,0.12);
-    border-radius: 16px;
-    padding: 18px;
-    margin-bottom: 16px;
+    background: linear-gradient(135deg, #1A1A0A, #1A1A1A);
+    border: 1px solid #F0B90B33;
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 20px;
     display: none;
 }
 
-.premium-title {
+.premium-header {
     font-weight: 600;
-    font-size: 15px;
-    margin-bottom: 10px;
+    font-size: 14px;
+    color: #F0B90B;
+    margin-bottom: 8px;
 }
 
 .premium-features {
+    font-size: 12px;
+    color: #999;
+    line-height: 1.6;
+}
+
+/* Son Çekimler */
+.withdrawals-card {
+    background: #1A1A1A;
+    border: 1px solid #2A2A2A;
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 12px;
+}
+
+.withdrawal-item {
     display: flex;
-    gap: 16px;
-    font-size: 13px;
-    opacity: 0.8;
-    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #222;
 }
 
-.ad-info {
+.withdrawal-item:last-child {
+    border-bottom: none;
+}
+
+.withdrawal-user {
     font-size: 13px;
-    opacity: 0.7;
-    margin-top: 8px;
+    font-weight: 500;
+}
+
+.withdrawal-time {
+    font-size: 11px;
+    color: #555;
+}
+
+.withdrawal-amount {
+    font-size: 14px;
+    font-weight: 700;
+    color: #00FF88;
+}
+
+/* Çekim Butonu */
+.withdraw-button {
+    width: 100%;
+    padding: 16px;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 14px;
+    color: #0D0D0D;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    margin-bottom: 10px;
+}
+
+.withdraw-button:active {
+    opacity: 0.9;
+}
+
+.withdraw-info {
     text-align: center;
+    font-size: 11px;
+    color: #555;
+    margin-bottom: 4px;
 }
 
+.terms {
+    text-align: center;
+    font-size: 11px;
+    color: #444;
+    margin-top: 16px;
+}
+
+/* Coin Rain */
 .coin-rain {
     position: fixed;
     top: 0;

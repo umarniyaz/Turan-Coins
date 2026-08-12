@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -5,8 +7,8 @@
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #0a0a1a 0%, #0f0f2e 50%, #0a0a1a 100%);
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #060B1F;
     color: #ffffff;
     min-height: 100vh;
     overflow-x: hidden;
@@ -15,7 +17,7 @@ body {
 .app-container {
     max-width: 420px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 16px;
     position: relative;
 }
 
@@ -24,7 +26,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 0;
+    padding: 12px 4px;
     margin-bottom: 20px;
 }
 
@@ -35,14 +37,22 @@ body {
 }
 
 .logo-icon {
-    font-size: 32px;
-    animation: float 3s ease-in-out infinite;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #F0B90B, #F8D33A);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 4px 12px rgba(240, 185, 11, 0.3);
 }
 
 .logo-text {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
-    background: linear-gradient(135deg, #ffd700, #ffaa00);
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #FFFFFF, #E0E0E0);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -51,12 +61,19 @@ body {
 .user-info {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 
-#username {
+.user-avatar {
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(135deg, #00D4FF, #0090FF);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
     font-size: 14px;
-    color: #aaa;
 }
 
 .premium-badge {
@@ -66,190 +83,163 @@ body {
 
 /* Bakiye Kartı */
 .balance-card {
-    background: linear-gradient(135deg, #1a1a3e 0%, #0d0d2b 100%);
-    border: 1px solid rgba(255, 215, 0, 0.2);
-    border-radius: 20px;
-    padding: 25px;
+    background: linear-gradient(135deg, rgba(10, 20, 50, 0.8), rgba(15, 25, 60, 0.6));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 28px 24px;
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
 }
 
-.balance-gradient {
+.balance-card::before {
+    content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255, 215, 0, 0.05) 0%, transparent 70%);
-    animation: rotate 10s linear infinite;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(0, 212, 255, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
 }
 
 .balance-label {
-    font-size: 14px;
-    color: #888;
-    margin-bottom: 10px;
+    font-size: 12px;
+    color: #6B7280;
+    margin-bottom: 12px;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
+    font-weight: 500;
 }
 
 .balance-amount {
-    font-size: 42px;
-    font-weight: 700;
-    color: #ffd700;
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    color: #FFFFFF;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+    gap: 8px;
+    margin-bottom: 6px;
 }
 
 .coin-icon {
-    font-size: 36px;
-    animation: spin 3s linear infinite;
+    font-size: 28px;
 }
 
 .balance-tl {
-    font-size: 16px;
-    color: #4fc3f7;
-    margin-top: 8px;
+    font-size: 15px;
+    color: #00D4FF;
+    font-weight: 500;
 }
 
 /* Reklam Butonu */
 .ad-section {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .ad-button {
     width: 100%;
-    padding: 18px;
-    background: linear-gradient(135deg, #00bcd4, #0097a7);
+    padding: 16px;
+    background: linear-gradient(135deg, #00D4FF, #0088CC);
     border: none;
-    border-radius: 16px;
-    color: white;
-    font-size: 18px;
+    border-radius: 18px;
+    color: #FFFFFF;
+    font-size: 16px;
     font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 20px rgba(0, 188, 212, 0.3);
-    font-family: 'Poppins', sans-serif;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 20px rgba(0, 212, 255, 0.25);
+    font-family: 'Inter', sans-serif;
+    letter-spacing: -0.3px;
 }
 
 .ad-button:active {
-    transform: scale(0.95);
-    box-shadow: 0 2px 10px rgba(0, 188, 212, 0.2);
+    transform: scale(0.97);
+    box-shadow: 0 2px 10px rgba(0, 212, 255, 0.15);
 }
 
 .ad-button.disabled {
-    background: linear-gradient(135deg, #444, #333);
+    background: rgba(255, 255, 255, 0.06);
     box-shadow: none;
     cursor: not-allowed;
-    opacity: 0.6;
+    color: #555;
 }
 
 .ad-icon {
-    font-size: 24px;
+    font-size: 20px;
 }
 
 .ad-reward {
     background: rgba(255, 255, 255, 0.2);
-    padding: 4px 12px;
+    padding: 4px 10px;
     border-radius: 20px;
-    font-size: 14px;
+    font-size: 12px;
+    font-weight: 500;
 }
 
 .ad-info {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
-    font-size: 13px;
-    color: #888;
+    font-size: 12px;
+    color: #6B7280;
+    padding: 0 4px;
 }
 
 .premium-unlimited {
-    color: #ffd700;
+    color: #F0B90B;
+    font-weight: 600;
 }
 
 /* Premium Kartı */
 .premium-card {
-    background: linear-gradient(135deg, #1a1a3e 0%, #0d0d2b 100%);
-    border: 1px solid rgba(255, 215, 0, 0.3);
-    border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 25px;
+    background: linear-gradient(135deg, rgba(240, 185, 11, 0.08), rgba(240, 185, 11, 0.03));
+    border: 1px solid rgba(240, 185, 11, 0.15);
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 20px;
     display: none;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .premium-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     font-weight: 600;
+    font-size: 15px;
 }
 
 .premium-status {
-    color: #4caf50;
+    color: #F0B90B;
     font-size: 13px;
+    font-weight: 500;
 }
 
-.progress-bar {
-    width: 100%;
-    height: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-    overflow: hidden;
-    margin-bottom: 8px;
-}
-
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #ffd700, #ff8f00);
-    border-radius: 4px;
-    transition: width 0.5s ease;
-}
-
-.progress-text {
-    font-size: 13px;
-    color: #aaa;
-}
-
-/* Menü */
-.menu-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-}
-
-.menu-item {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 16px;
-    padding: 20px;
-    text-align: center;
-    color: #ccc;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+.premium-features {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    font-family: 'Poppins', sans-serif;
 }
 
-.menu-item:active {
-    background: rgba(255, 255, 255, 0.08);
-    transform: scale(0.95);
-}
-
-.menu-item span:first-child {
-    font-size: 28px;
+.premium-features span {
+    font-size: 13px;
+    color: #9CA3AF;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 /* Coin Yağmuru */
@@ -265,45 +255,35 @@ body {
 
 .coin-fall {
     position: absolute;
-    font-size: 24px;
+    font-size: 20px;
     animation: coinFall 2s ease-in forwards;
 }
 
 /* Animasyonlar */
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
 @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-}
-
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.15); opacity: 0.8; }
 }
 
 @keyframes coinFall {
     0% {
         opacity: 1;
-        transform: translateY(-100px) rotate(0deg);
+        transform: translateY(-80px) rotate(0deg) scale(1);
     }
     100% {
         opacity: 0;
-        transform: translateY(100vh) rotate(720deg);
+        transform: translateY(100vh) rotate(540deg) scale(0.3);
     }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
 }
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-    width: 4px;
+    width: 3px;
 }
 
 ::-webkit-scrollbar-track {
@@ -311,6 +291,6 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(255, 215, 0, 0.3);
-    border-radius: 2px;
+    background: rgba(0, 212, 255, 0.2);
+    border-radius: 3px;
 }

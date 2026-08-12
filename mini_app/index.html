@@ -6,18 +6,17 @@
     <title>Turan Coin</title>
     <script src='//libtl.com/sdk.js' data-zone='11561450' data-sdk='show_11561450'></script>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="app-container">
         <!-- Header -->
         <div class="header">
             <div class="logo">
-                <span class="logo-icon">🪙</span>
+                <div class="logo-icon">₺</div>
                 <span class="logo-text">Turan Coin</span>
             </div>
             <div class="user-info">
-                <span id="username">Kullanıcı</span>
+                <div class="user-avatar" id="userAvatar">U</div>
                 <div class="premium-badge" id="premiumBadge" style="display:none;">👑</div>
             </div>
         </div>
@@ -30,33 +29,31 @@
                 <span class="coin-icon">🪙</span>
             </div>
             <div class="balance-tl" id="tlBalance">0.00 TL</div>
-            <div class="balance-gradient"></div>
         </div>
 
         <!-- Reklam Bölümü -->
         <div class="ad-section">
             <button class="ad-button" id="watchAdBtn">
-                <span class="ad-icon">▶️</span>
+                <span class="ad-icon">▶</span>
                 <span>Reklam İzle</span>
                 <span class="ad-reward">+1 Coin</span>
             </button>
             <div class="ad-info">
                 <span>Bugün: <span id="adsWatched">0</span>/50</span>
-                <span class="premium-unlimited" id="premiumUnlimited" style="display:none;">Sınırsız ✨</span>
+                <span class="premium-unlimited" id="premiumUnlimited" style="display:none;">Sınırsız</span>
             </div>
         </div>
 
         <!-- Premium Kartı -->
         <div class="premium-card" id="premiumCard">
             <div class="premium-header">
-                <span>👑 Premium</span>
-                <span class="premium-status">Aktif</span>
+                <span>👑 Premium Aktif</span>
+                <span class="premium-status">5 Kat Kazanç</span>
             </div>
-            <div class="premium-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="premiumProgress" style="width: 0%;"></div>
-                </div>
-                <span class="progress-text"><span id="premiumEarned">0</span>/30 TL</span>
+            <div class="premium-features">
+                <span>🪙 Coin değeri: 0.5 TL</span>
+                <span>∞ Sınırsız reklam</span>
+                <span>🚌 İstanbulkart yükleme</span>
             </div>
         </div>
 

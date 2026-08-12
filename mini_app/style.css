@@ -75,6 +75,25 @@ body {
     border-radius: 16px;
     padding: 20px;
     margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.balance-card.shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(240, 185, 11, 0.15), transparent);
+    animation: shimmerSweep 0.8s ease forwards;
+}
+
+@keyframes shimmerSweep {
+    0% { left: -100%; }
+    100% { left: 100%; }
 }
 
 .balance-label {
@@ -95,12 +114,48 @@ body {
     font-size: 42px;
     font-weight: 800;
     letter-spacing: -1px;
+    transition: all 0.15s ease;
 }
 
 .balance-unit {
     font-size: 16px;
     color: #777;
     font-weight: 500;
+}
+
+/* Sayı geçiş animasyonu */
+.number-animate-out {
+    animation: numberOut 0.15s ease forwards;
+}
+
+.number-animate-in {
+    animation: numberIn 0.3s ease forwards;
+}
+
+@keyframes numberOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-15px);
+        filter: blur(4px);
+    }
+}
+
+@keyframes numberIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+        filter: blur(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
 }
 
 /* Günlük İlerleme */
@@ -298,39 +353,6 @@ body {
     color: #00FF88;
 }
 
-/* Çekim Butonu */
-.withdraw-button {
-    width: 100%;
-    padding: 16px;
-    background: #FFFFFF;
-    border: none;
-    border-radius: 14px;
-    color: #0D0D0D;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: 'Inter', sans-serif;
-    margin-bottom: 10px;
-}
-
-.withdraw-button:active {
-    opacity: 0.9;
-}
-
-.withdraw-info {
-    text-align: center;
-    font-size: 11px;
-    color: #555;
-    margin-bottom: 4px;
-}
-
-.terms {
-    text-align: center;
-    font-size: 11px;
-    color: #444;
-    margin-top: 16px;
-}
-
 /* Coin Rain */
 .coin-rain {
     position: fixed;
@@ -344,17 +366,37 @@ body {
 
 .coin-fall {
     position: absolute;
-    font-size: 22px;
     animation: coinFall 2s ease-in forwards;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #F8D33A, #F0B90B, #D4A017);
+    box-shadow: 
+        inset -2px -2px 4px rgba(0,0,0,0.3),
+        inset 2px 2px 4px rgba(255,255,255,0.4),
+        0 4px 12px rgba(240,185,11,0.4);
+}
+
+.coin-fall-inner {
+    width: 70%;
+    height: 70%;
+    margin: 15%;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.4);
+    background: transparent;
 }
 
 @keyframes coinFall {
     0% {
+        opacity: 0;
+        transform: translateY(-60px) rotate(0deg) scale(0.8);
+    }
+    10% {
         opacity: 1;
-        transform: translateY(-60px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(40vh) rotate(360deg) scale(1);
     }
     100% {
         opacity: 0;
-        transform: translateY(100vh) rotate(720deg);
+        transform: translateY(100vh) rotate(720deg) scale(0.5);
     }
 }

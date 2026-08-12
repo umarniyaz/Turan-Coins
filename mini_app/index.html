@@ -25,7 +25,7 @@
         </div>
 
         <!-- Bakiye -->
-        <div class="balance-card">
+        <div class="balance-card" id="balanceCard">
             <div class="balance-label">Toplam Bakiye</div>
             <div class="balance-row">
                 <span class="balance-amount" id="coinBalance">0</span>
@@ -55,7 +55,7 @@
         <!-- Ana Buton -->
         <button class="main-button" id="watchAdBtn">
             <span class="btn-icon">▶</span>
-            <span>Reklam İzle & Kazan</span>
+            <span>Reklam İzle</span>
         </button>
 
         <!-- Boost Kartları -->
@@ -85,33 +85,8 @@
         <!-- Son Çekimler -->
         <div class="withdrawals-card">
             <div class="section-title">Son Çekimler</div>
-            <div class="withdrawal-item">
-                <div>
-                    <div class="withdrawal-user">***kullanici1</div>
-                    <div class="withdrawal-time">Bugün, 14:32</div>
-                </div>
-                <div class="withdrawal-amount">+75.00 TL</div>
-            </div>
-            <div class="withdrawal-item">
-                <div>
-                    <div class="withdrawal-user">***mehmet42</div>
-                    <div class="withdrawal-time">Bugün, 11:15</div>
-                </div>
-                <div class="withdrawal-amount">+120.50 TL</div>
-            </div>
-            <div class="withdrawal-item">
-                <div>
-                    <div class="withdrawal-user">***ayse01</div>
-                    <div class="withdrawal-time">Dün, 22:08</div>
-                </div>
-                <div class="withdrawal-amount">+50.00 TL</div>
-            </div>
+            <div id="withdrawalsList"></div>
         </div>
-
-        <!-- Çekim Butonu -->
-        <button class="withdraw-button" id="withdrawBtn">Para Çek</button>
-        <div class="withdraw-info">Min. çekim: 50 TL &nbsp;|&nbsp; İşlem: 1-3 iş günü</div>
-        <div class="terms">Kullanım Koşulları</div>
 
         <!-- Coin Rain -->
         <div class="coin-rain" id="coinRain"></div>

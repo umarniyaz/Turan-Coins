@@ -20,6 +20,8 @@ const adsWatchedEl = document.getElementById('adsWatched');
 const premiumCard = document.getElementById('premiumCard');
 const premiumIcon = document.getElementById('premiumIcon');
 const coinRain = document.getElementById('coinRain');
+const balanceCard = document.getElementById('balanceCard');
+const withdrawalsList = document.getElementById('withdrawalsList');
 
 let coinBalance = 0;
 let adsWatched = 0;
@@ -34,6 +36,46 @@ if (hour >= 18) greeting = 'İyi akşamlar';
 greetingEl.textContent = greeting;
 usernameEl.textContent = firstName;
 
+// Rastgele çekimler
+const randomNames = [
+    'mehmet_47', 'ayse_kar', 'can_34', 'elif_99', 'john_doe',
+    'maria_silva', 'ahmed_77', 'elena_volk', 'yusuf_ali', 'zeynep_01',
+    'dmitriy_k', 'fatima_nur', 'sara_m', 'ali_can', 'emma_w',
+    'lucas_f', 'nina_p', 'omar_h', 'selin_a', 'tom_b',
+    'ada_l', 'kerem_08', 'luna_x', 'mert_23', 'nora_k'
+];
+
+const randomTimes = [
+    'Az önce', '1 dk önce', '2 dk önce', '5 dk önce',
+    '10 dk önce', '15 dk önce', '30 dk önce', '45 dk önce',
+    '1 saat önce', '2 saat önce', '3 saat önce', 'Bugün',
+    'Bugün', 'Dün', 'Dün'
+];
+
+function generateRandomWithdrawals() {
+    withdrawalsList.innerHTML = '';
+    
+    const count = 3 + Math.floor(Math.random() * 2); // 3-4 kayıt
+    
+    for (let i = 0; i < count; i++) {
+        const randomName = randomNames[Math.floor(Math.random() * randomNames.length)];
+        const randomTime = randomTimes[Math.floor(Math.random() * randomTimes.length)];
+        const randomAmount = (50 + Math.random() * 4950).toFixed(2);
+        
+        const item = document.createElement('div');
+        item.className = 'withdrawal-item';
+        item.innerHTML = `
+            <div>
+                <div class="withdrawal-user">***${randomName}</div>
+                <div class="withdrawal-time">${randomTime}</div>
+            </div>
+            <div class="withdrawal-amount">+${randomAmount} TL</div>
+        `;
+        
+        withdrawalsList.appendChild(item);
+    }
+}
+
 function updateTimer() {
     const now = new Date();
     const midnight = new Date(now);
@@ -47,8 +89,30 @@ function updateTimer() {
 updateTimer();
 setInterval(updateTimer, 1000);
 
-function updateBalance() {
-    coinBalanceEl.textContent = coinBalance;
+function animateNumber(el, newValue) {
+    const oldValue = parseInt(el.textContent) || 0;
+    if (oldValue === newValue) return;
+    
+    el.classList.add('number-animate-out');
+    
+    setTimeout(() => {
+        el.textContent = newValue;
+        el.classList.remove('number-animate-out');
+        el.classList.add('number-animate-in');
+        
+        setTimeout(() => {
+            el.classList.remove('number-animate-in');
+        }, 300);
+    }, 150);
+}
+
+function updateBalance(animate = false) {
+    if (animate) {
+        animateNumber(coinBalanceEl, coinBalance);
+    } else {
+        coinBalanceEl.textContent = coinBalance;
+    }
+    
     const tlValue = isPremium ? (coinBalance * 0.5) : (coinBalance * 0.1);
     tlBalanceEl.textContent = tlValue.toFixed(2);
     
@@ -86,7 +150,7 @@ async function loadUserData() {
             coinBalance = data.balance || 0;
             adsWatched = data.ads_watched_today || 0;
             isPremium = data.is_premium || false;
-            updateBalance();
+            updateBalance(false);
         }
     } catch (e) {
         console.log('API bağlantı hatası');
@@ -94,17 +158,34 @@ async function loadUserData() {
 }
 
 function spawnCoinRain() {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 15; i++) {
         setTimeout(() => {
             const coin = document.createElement('div');
             coin.className = 'coin-fall';
-            coin.textContent = '🪙';
-            coin.style.left = Math.random() * 100 + '%';
+            
+            const inner = document.createElement('div');
+            inner.className = 'coin-fall-inner';
+            coin.appendChild(inner);
+            
+            coin.style.left = Math.random() * 90 + 5 + '%';
+            coin.style.animationDuration = (Math.random() * 1 + 1.5) + 's';
             coin.style.animationDelay = Math.random() * 0.5 + 's';
+            
+            const size = Math.random() * 16 + 12;
+            coin.style.width = size + 'px';
+            coin.style.height = size + 'px';
+            
             coinRain.appendChild(coin);
-            setTimeout(() => coin.remove(), 2000);
-        }, i * 80);
+            setTimeout(() => coin.remove(), 3000);
+        }, i * 60);
     }
+}
+
+function shimmerBalanceCard() {
+    balanceCard.classList.add('shimmer');
+    setTimeout(() => {
+        balanceCard.classList.remove('shimmer');
+    }, 1000);
 }
 
 watchAdBtn.addEventListener('click', async () => {
@@ -129,7 +210,8 @@ watchAdBtn.addEventListener('click', async () => {
                     coinBalance = data.new_balance;
                     adsWatched += 1;
                     spawnCoinRain();
-                    updateBalance();
+                    shimmerBalanceCard();
+                    updateBalance(true);
                     tg.HapticFeedback.notificationOccurred('success');
                 }
             } catch (e) {
@@ -140,11 +222,11 @@ watchAdBtn.addEventListener('click', async () => {
                 });
             }
             
-            watchAdBtn.innerHTML = '<span class="btn-icon">▶</span><span>Reklam İzle & Kazan</span>';
+            watchAdBtn.innerHTML = '<span class="btn-icon">▶</span><span>Reklam İzle</span>';
             watchAdBtn.style.pointerEvents = 'auto';
             
         }).catch(() => {
-            watchAdBtn.innerHTML = '<span class="btn-icon">▶</span><span>Reklam İzle & Kazan</span>';
+            watchAdBtn.innerHTML = '<span class="btn-icon">▶</span><span>Reklam İzle</span>';
             watchAdBtn.style.pointerEvents = 'auto';
             tg.showPopup({
                 title: 'Reklam Bulunamadı',
@@ -153,7 +235,7 @@ watchAdBtn.addEventListener('click', async () => {
             });
         });
     } catch (e) {
-        watchAdBtn.innerHTML = '<span class="btn-icon">▶</span><span>Reklam İzle & Kazan</span>';
+        watchAdBtn.innerHTML = '<span class="btn-icon">▶</span><span>Reklam İzle</span>';
         watchAdBtn.style.pointerEvents = 'auto';
     }
 });
@@ -161,7 +243,7 @@ watchAdBtn.addEventListener('click', async () => {
 document.getElementById('refBtn').addEventListener('click', () => {
     tg.showPopup({
         title: 'Arkadaş Davet Et',
-        message: 'Her davet için 100 coin kazan!',
+        message: 'Her davet ettiğin arkadaşın için 100 coin kazan!\n\nReferans linkini bot üzerinden alabilirsin.',
         buttons: [{type: 'ok'}]
     });
 });
@@ -169,40 +251,12 @@ document.getElementById('refBtn').addEventListener('click', () => {
 document.getElementById('premiumBtn').addEventListener('click', () => {
     tg.showPopup({
         title: 'Premium',
-        message: 'Premium satın almak için: @TuranCoinDestek',
+        message: 'Reklam başına 0.5 TL kazan\nSınırsız reklam izleme\nİstanbulkart yükleme\n\nFiyat: 100 TL\n📩 @turancoinsdestek',
         buttons: [{type: 'ok'}]
     });
 });
 
-document.getElementById('withdrawBtn').addEventListener('click', () => {
-    const tlValue = isPremium ? (coinBalance * 0.5) : (coinBalance * 0.1);
-    if (tlValue < 50) {
-        tg.showPopup({
-            title: 'Yetersiz Bakiye',
-            message: 'Minimum çekim tutarı 50 TL.',
-            buttons: [{type: 'ok'}]
-        });
-    } else {
-        tg.showPopup({
-            title: 'Para Çek',
-            message: 'Çekim talebi için bot üzerinden IBAN gönderin.',
-            buttons: [{type: 'ok'}]
-        });
-    }
-});
-
-tg.MainButton.setText('👑 Premium Test');
-tg.MainButton.show();
-tg.MainButton.onClick(() => {
-    isPremium = true;
-    updateBalance();
-    tg.HapticFeedback.notificationOccurred('success');
-    tg.showPopup({
-        title: 'Premium Aktif!',
-        message: 'Coin değeriniz 0.5 TL oldu!',
-        buttons: [{type: 'ok'}]
-    });
-});
-
+// Başlangıç
+generateRandomWithdrawals();
 loadUserData();
 tg.ready();

@@ -9,7 +9,6 @@
 </head>
 <body>
     <div class="app-container">
-        <!-- Header -->
         <div class="header">
             <div class="logo">
                 <div class="logo-icon">₺</div>
@@ -21,43 +20,33 @@
             </div>
         </div>
 
-        <!-- Bakiye Kartı -->
-        <div class="balance-card">
+        <div class="balance-section">
             <div class="balance-label">Toplam Bakiye</div>
-            <div class="balance-amount">
-                <span id="coinBalance">0</span>
-                <span class="coin-icon">🪙</span>
+            <div class="balance-row">
+                <span class="balance-amount" id="coinBalance">0</span>
+                <span class="balance-coin">COIN</span>
             </div>
             <div class="balance-tl" id="tlBalance">0.00 TL</div>
         </div>
 
-        <!-- Reklam Bölümü -->
-        <div class="ad-section">
-            <button class="ad-button" id="watchAdBtn">
-                <span class="ad-icon">▶</span>
-                <span>Reklam İzle</span>
-                <span class="ad-reward">+1 Coin</span>
-            </button>
-            <div class="ad-info">
-                <span>Bugün: <span id="adsWatched">0</span>/50</span>
-                <span class="premium-unlimited" id="premiumUnlimited" style="display:none;">Sınırsız</span>
-            </div>
+        <div class="actions">
+            <button class="btn-primary" id="watchAdBtn">Reklam İzle</button>
+            <button class="btn-secondary" id="premiumBtn">👑</button>
         </div>
 
-        <!-- Premium Kartı -->
+        <div class="ad-info">
+            Bugün: <span id="adsWatched">0</span>/50
+        </div>
+
         <div class="premium-card" id="premiumCard">
-            <div class="premium-header">
-                <span>👑 Premium Aktif</span>
-                <span class="premium-status">5 Kat Kazanç</span>
-            </div>
+            <div class="premium-title">👑 Premium Aktif</div>
             <div class="premium-features">
-                <span>🪙 Coin değeri: 0.5 TL</span>
-                <span>∞ Sınırsız reklam</span>
-                <span>🚌 İstanbulkart yükleme</span>
+                <span>1 Coin = 0.5 TL</span>
+                <span>Sınırsız Reklam</span>
+                <span>İstanbulkart</span>
             </div>
         </div>
 
-        <!-- Coin Animasyonu -->
         <div class="coin-rain" id="coinRain"></div>
     </div>
 

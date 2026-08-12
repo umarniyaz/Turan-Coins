@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turan Coin</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <span class="logo-icon">🪙</span>
+                <span class="logo-text">Turan Coin</span>
+            </div>
+            <div class="user-info">
+                <span id="username">Kullanıcı</span>
+                <div class="premium-badge" id="premiumBadge" style="display:none;">👑</div>
+            </div>
+        </div>
+
+        <!-- Bakiye Kartı -->
+        <div class="balance-card">
+            <div class="balance-label">Toplam Bakiye</div>
+            <div class="balance-amount">
+                <span id="coinBalance">0</span>
+                <span class="coin-icon">🪙</span>
+            </div>
+            <div class="balance-tl" id="tlBalance">0.00 TL</div>
+            <div class="balance-gradient"></div>
+        </div>
+
+        <!-- Reklam Bölümü -->
+        <div class="ad-section">
+            <button class="ad-button" id="watchAdBtn">
+                <span class="ad-icon">▶️</span>
+                <span>Reklam İzle</span>
+                <span class="ad-reward">+1 Coin</span>
+            </button>
+            <div class="ad-info">
+                <span>Bugün: <span id="adsWatched">0</span>/50</span>
+                <span class="premium-unlimited" id="premiumUnlimited" style="display:none;">Sınırsız ✨</span>
+            </div>
+        </div>
+
+        <!-- Premium Kartı -->
+        <div class="premium-card" id="premiumCard">
+            <div class="premium-header">
+                <span>👑 Premium</span>
+                <span class="premium-status">Aktif</span>
+            </div>
+            <div class="premium-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="premiumProgress" style="width: 0%;"></div>
+                </div>
+                <span class="progress-text"><span id="premiumEarned">0</span>/30 TL</span>
+            </div>
+        </div>
+
+        <!-- Menü -->
+        <div class="menu-grid">
+            <button class="menu-item">
+                <span>📊</span>
+                <span>Geçmiş</span>
+            </button>
+            <button class="menu-item">
+                <span>👥</span>
+                <span>Referans</span>
+            </button>
+            <button class="menu-item">
+                <span>💸</span>
+                <span>Para Çek</span>
+            </button>
+            <button class="menu-item">
+                <span>ℹ️</span>
+                <span>Yardım</span>
+            </button>
+        </div>
+
+        <!-- Coin Animasyonu -->
+        <div class="coin-rain" id="coinRain"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

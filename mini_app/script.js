@@ -110,34 +110,52 @@ function spawnCoinRain() {
 watchAdBtn.addEventListener('click', async () => {
     if (watchAdBtn.classList.contains('disabled')) return;
     
-    watchAdBtn.innerHTML = '<span>⏳ Reklam İzleniyor...</span>';
+    watchAdBtn.innerHTML = '<span>⏳ Reklam yükleniyor...</span>';
     watchAdBtn.style.pointerEvents = 'none';
     
-    setTimeout(async () => {
-        try {
-            const response = await fetch(API_URL + '/api/add_coins', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    user_id: userId,
-                    coins: 1
-                })
-            });
-            const data = await response.json();
-            if (data.success) {
-                coinBalance = data.new_balance;
-                adsWatched += 1;
-                spawnCoinRain();
-                updateBalance();
-                tg.HapticFeedback.notificationOccurred('success');
+    try {
+        show_11561450().then(async () => {
+            try {
+                const response = await fetch(API_URL + '/api/add_coins', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        user_id: userId,
+                        coins: 1
+                    })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    coinBalance = data.new_balance;
+                    adsWatched += 1;
+                    spawnCoinRain();
+                    updateBalance();
+                    tg.HapticFeedback.notificationOccurred('success');
+                }
+            } catch (e) {
+                tg.showPopup({
+                    title: 'Hata',
+                    message: 'Coin eklenemedi.',
+                    buttons: [{type: 'ok'}]
+                });
             }
-        } catch (e) {
-            console.log('Coin ekleme hatası');
-        }
-        
+            
+            watchAdBtn.innerHTML = '<span class="btn-icon">▶</span><span>Reklam İzle & Kazan</span>';
+            watchAdBtn.style.pointerEvents = 'auto';
+            
+        }).catch(() => {
+            watchAdBtn.innerHTML = '<span class="btn-icon">▶</span><span>Reklam İzle & Kazan</span>';
+            watchAdBtn.style.pointerEvents = 'auto';
+            tg.showPopup({
+                title: 'Reklam Bulunamadı',
+                message: 'Şu anda reklam yok. Lütfen sonra tekrar deneyin.',
+                buttons: [{type: 'ok'}]
+            });
+        });
+    } catch (e) {
         watchAdBtn.innerHTML = '<span class="btn-icon">▶</span><span>Reklam İzle & Kazan</span>';
         watchAdBtn.style.pointerEvents = 'auto';
-    }, 3000);
+    }
 });
 
 document.getElementById('refBtn').addEventListener('click', () => {

@@ -3,6 +3,7 @@ tg.expand();
 
 const user = tg.initDataUnsafe?.user || {};
 const firstName = user.first_name || 'Kullanıcı';
+const lastName = user.last_name || '';
 const userId = user.id || 0;
 
 const API_URL = 'https://turancoin-bot.onrender.com';
@@ -24,7 +25,7 @@ const balanceCard = document.getElementById('balanceCard');
 const withdrawalsList = document.getElementById('withdrawalsList');
 const toast = document.getElementById('toast');
 const ligName = document.getElementById('ligName');
-const ligIcon = document.getElementById('ligIcon');
+const ligMedal = document.getElementById('ligMedal');
 const ligDetail = document.getElementById('ligDetail');
 const ligProgressFill = document.getElementById('ligProgressFill');
 
@@ -36,12 +37,12 @@ let currentLigRate = 0.03;
 const DAILY_LIMIT = 50;
 
 const ligIcons = {
-    'Bronz': '🥉',
-    'Gümüş': '🥈',
-    'Altın': '🥇',
-    'Platin': '💎',
-    'Elit': '👑',
-    'Efsane': '🚀'
+    'Bronz': { letter: 'B', cssClass: 'bronz' },
+    'Gümüş': { letter: 'G', cssClass: 'gumus' },
+    'Altın': { letter: 'A', cssClass: 'altin' },
+    'Platin': { letter: 'P', cssClass: 'platin' },
+    'Elit': { letter: 'E', cssClass: 'elit' },
+    'Efsane': { letter: 'EF', cssClass: 'efsane' }
 };
 
 function getLig(totalAds) {
@@ -58,11 +59,15 @@ function updateLigCard() {
     currentLigRate = isPremium ? lig.rate * 2 : lig.rate;
     
     ligName.textContent = lig.name;
-    ligIcon.textContent = ligIcons[lig.name];
+    
+    const iconData = ligIcons[lig.name];
+    ligMedal.className = 'lig-medal ' + iconData.cssClass;
+    ligMedal.querySelector('.lig-medal-inner').textContent = iconData.letter;
+    
     ligDetail.textContent = currentLigRate.toFixed(2) + ' TL / reklam';
     
     if (lig.next) {
-        const progress = ((totalEarned % (lig.next - (lig.next - 100))) / 100) * 100;
+        const progress = ((totalEarned % 100) / 100) * 100;
         ligProgressFill.style.width = Math.min(progress, 100) + '%';
     } else {
         ligProgressFill.style.width = '100%';
@@ -316,6 +321,14 @@ document.getElementById('premiumBtn').addEventListener('click', () => {
         buttons: [{type: 'ok'}]
     });
 });
+
+// Selamlama
+const hour = new Date().getHours();
+let greetingText = 'Günaydın';
+if (hour >= 12 && hour < 18) greetingText = 'İyi günler';
+if (hour >= 18) greetingText = 'İyi akşamlar';
+greetingEl.textContent = greetingText;
+usernameEl.textContent = firstName + (lastName ? ' ' + lastName : '');
 
 generateRandomWithdrawals();
 loadUserData();

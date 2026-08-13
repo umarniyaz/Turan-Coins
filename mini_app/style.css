@@ -78,23 +78,74 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
+    width: 100%;
 }
 
-.lig-icon {
-    width: 40px;
-    height: 40px;
+.lig-medal {
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
     flex-shrink: 0;
-    animation: ligPulse 2s ease-in-out infinite;
+    position: relative;
+    animation: ligGlow 2s ease-in-out infinite;
 }
 
-@keyframes ligPulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+.lig-medal-inner {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+    color: #FFFFFF;
+    background: rgba(255,255,255,0.1);
+}
+
+/* Bronz Madalya */
+.lig-medal.bronz {
+    background: linear-gradient(135deg, #CD7F32, #8B4513, #CD7F32);
+    box-shadow: 0 0 15px rgba(205, 127, 50, 0.5);
+}
+
+/* Gümüş Madalya */
+.lig-medal.gumus {
+    background: linear-gradient(135deg, #E8E8E8, #A8A8A8, #E8E8E8);
+    box-shadow: 0 0 15px rgba(200, 200, 200, 0.5);
+}
+
+/* Altın Madalya */
+.lig-medal.altin {
+    background: linear-gradient(135deg, #F8D33A, #D4A017, #F8D33A);
+    box-shadow: 0 0 15px rgba(240, 185, 11, 0.6);
+}
+
+/* Platin Madalya */
+.lig-medal.platin {
+    background: linear-gradient(135deg, #E5E4E2, #A9A9A9, #E5E4E2);
+    box-shadow: 0 0 15px rgba(200, 200, 220, 0.5);
+}
+
+/* Elit Madalya */
+.lig-medal.elit {
+    background: linear-gradient(135deg, #9B59B6, #F0B90B, #9B59B6);
+    box-shadow: 0 0 15px rgba(155, 89, 182, 0.6);
+}
+
+/* Efsane Madalya */
+.lig-medal.efsane {
+    background: linear-gradient(135deg, #FF4500, #FF8C00, #FF4500);
+    box-shadow: 0 0 15px rgba(255, 69, 0, 0.6);
+}
+
+@keyframes ligGlow {
+    0%, 100% { transform: scale(1); filter: brightness(1); }
+    50% { transform: scale(1.08); filter: brightness(1.3); }
 }
 
 .lig-info {
@@ -113,7 +164,7 @@ body {
 }
 
 .lig-progress {
-    width: 60px;
+    width: 50px;
     height: 4px;
     background: #2A2A2A;
     border-radius: 2px;
@@ -125,6 +176,18 @@ body {
     background: linear-gradient(90deg, #F0B90B, #F8D33A);
     border-radius: 2px;
     transition: width 0.3s;
+}
+
+/* Tüm kartlar eşit genişlik */
+.balance-card,
+.progress-card,
+.lig-card,
+.main-button,
+.boost-section,
+.premium-card,
+.withdrawals-card {
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Bakiye Kartı */
@@ -223,7 +286,7 @@ body {
     border: 1px solid #2A2A2A;
     border-radius: 16px;
     padding: 16px 20px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .progress-header {
@@ -269,7 +332,6 @@ body {
 
 /* Ana Buton */
 .main-button {
-    width: 100%;
     padding: 18px;
     background: linear-gradient(135deg, #F0B90B, #F8D33A);
     border: none;
@@ -279,7 +341,7 @@ body {
     font-weight: 700;
     cursor: pointer;
     font-family: 'Inter', sans-serif;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     transition: all 0.15s ease;
     display: flex;
     align-items: center;
@@ -306,7 +368,7 @@ body {
 .boost-section {
     display: flex;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .boost-card {
@@ -317,6 +379,7 @@ body {
     padding: 14px;
     cursor: pointer;
     transition: all 0.15s ease;
+    min-width: 0;
 }
 
 .boost-card:active {
@@ -352,7 +415,7 @@ body {
     border: 1px solid #F0B90B33;
     border-radius: 14px;
     padding: 14px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     display: none;
 }
 
@@ -375,7 +438,7 @@ body {
     border: 1px solid #2A2A2A;
     border-radius: 16px;
     padding: 16px 20px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .section-title {

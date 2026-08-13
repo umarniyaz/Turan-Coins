@@ -23,56 +23,49 @@ const coinRain = document.getElementById('coinRain');
 const balanceCard = document.getElementById('balanceCard');
 const withdrawalsList = document.getElementById('withdrawalsList');
 const toast = document.getElementById('toast');
+const ligName = document.getElementById('ligName');
+const ligIcon = document.getElementById('ligIcon');
+const ligDetail = document.getElementById('ligDetail');
+const ligProgressFill = document.getElementById('ligProgressFill');
 
 let coinBalance = 0;
 let adsWatched = 0;
 let isPremium = false;
+let totalEarned = 0;
+let currentLigRate = 0.03;
 const DAILY_LIMIT = 50;
-const DAILY_TARGET_TL = 5;
 
-const hour = new Date().getHours();
-let greeting = 'Günaydın';
-if (hour >= 12 && hour < 18) greeting = 'İyi günler';
-if (hour >= 18) greeting = 'İyi akşamlar';
-greetingEl.textContent = greeting;
-usernameEl.textContent = firstName;
+const ligIcons = {
+    'Bronz': '🥉',
+    'Gümüş': '🥈',
+    'Altın': '🥇',
+    'Platin': '💎',
+    'Elit': '👑',
+    'Efsane': '🚀'
+};
 
-const randomNames = [
-    'mehmet_47', 'ayse_kar', 'can_34', 'elif_99', 'john_doe',
-    'maria_silva', 'ahmed_77', 'elena_volk', 'yusuf_ali', 'zeynep_01',
-    'dmitriy_k', 'fatima_nur', 'sara_m', 'ali_can', 'emma_w',
-    'lucas_f', 'nina_p', 'omar_h', 'selin_a', 'tom_b',
-    'ada_l', 'kerem_08', 'luna_x', 'mert_23', 'nora_k'
-];
+function getLig(totalAds) {
+    if (totalAds >= 3001) return { name: 'Efsane', rate: 0.25, next: null };
+    if (totalAds >= 1501) return { name: 'Elit', rate: 0.18, next: 3001 };
+    if (totalAds >= 701) return { name: 'Platin', rate: 0.12, next: 1501 };
+    if (totalAds >= 301) return { name: 'Altın', rate: 0.08, next: 701 };
+    if (totalAds >= 101) return { name: 'Gümüş', rate: 0.05, next: 301 };
+    return { name: 'Bronz', rate: 0.03, next: 101 };
+}
 
-const randomTimes = [
-    'Az önce', '1 dk önce', '2 dk önce', '5 dk önce',
-    '10 dk önce', '15 dk önce', '30 dk önce', '45 dk önce',
-    '1 saat önce', '2 saat önce', '3 saat önce', 'Bugün',
-    'Bugün', 'Dün', 'Dün'
-];
-
-function generateRandomWithdrawals() {
-    withdrawalsList.innerHTML = '';
+function updateLigCard() {
+    const lig = getLig(totalEarned);
+    currentLigRate = isPremium ? lig.rate * 2 : lig.rate;
     
-    const count = 3 + Math.floor(Math.random() * 2);
+    ligName.textContent = lig.name;
+    ligIcon.textContent = ligIcons[lig.name];
+    ligDetail.textContent = currentLigRate.toFixed(2) + ' TL / reklam';
     
-    for (let i = 0; i < count; i++) {
-        const randomName = randomNames[Math.floor(Math.random() * randomNames.length)];
-        const randomTime = randomTimes[Math.floor(Math.random() * randomTimes.length)];
-        const randomAmount = (50 + Math.random() * 4950).toFixed(2);
-        
-        const item = document.createElement('div');
-        item.className = 'withdrawal-item';
-        item.innerHTML = `
-            <div>
-                <div class="withdrawal-user">***${randomName}</div>
-                <div class="withdrawal-time">${randomTime}</div>
-            </div>
-            <div class="withdrawal-amount">+${randomAmount} TL</div>
-        `;
-        
-        withdrawalsList.appendChild(item);
+    if (lig.next) {
+        const progress = ((totalEarned % (lig.next - (lig.next - 100))) / 100) * 100;
+        ligProgressFill.style.width = Math.min(progress, 100) + '%';
+    } else {
+        ligProgressFill.style.width = '100%';
     }
 }
 
@@ -113,14 +106,13 @@ function updateBalance(animate = false) {
         coinBalanceEl.textContent = coinBalance;
     }
     
-    const tlValue = isPremium ? (coinBalance * 0.5) : (coinBalance * 0.1);
+    const tlValue = coinBalance * currentLigRate;
     tlBalanceEl.textContent = tlValue.toFixed(2);
     
-    const earnedToday = isPremium ? (adsWatched * 0.5) : (adsWatched * 0.1);
-    const percent = Math.min((earnedToday / DAILY_TARGET_TL) * 100, 100);
+    const earnedToday = adsWatched * currentLigRate;
+    const percent = Math.min((earnedToday / 5) * 100, 100);
     progressFill.style.width = percent + '%';
     progressEarned.textContent = earnedToday.toFixed(2) + ' TL';
-    progressTarget.textContent = DAILY_TARGET_TL + ' TL';
     adsWatchedEl.textContent = adsWatched;
     
     if (isPremium) {
@@ -132,6 +124,8 @@ function updateBalance(animate = false) {
         watchAdBtn.classList.add('disabled');
         watchAdBtn.innerHTML = '<span>Günlük Limit Doldu</span>';
     }
+    
+    updateLigCard();
 }
 
 async function loadUserData() {
@@ -150,6 +144,8 @@ async function loadUserData() {
             coinBalance = data.balance || 0;
             adsWatched = data.ads_watched_today || 0;
             isPremium = data.is_premium || false;
+            totalEarned = data.total_earned || 0;
+            currentLigRate = data.lig_rate || 0.03;
             updateBalance(false);
         }
     } catch (e) {
@@ -199,6 +195,45 @@ function showToast(message) {
     }, 2000);
 }
 
+const randomNames = [
+    'mehmet_47', 'ayse_kar', 'can_34', 'elif_99', 'john_doe',
+    'maria_silva', 'ahmed_77', 'elena_volk', 'yusuf_ali', 'zeynep_01',
+    'dmitriy_k', 'fatima_nur', 'sara_m', 'ali_can', 'emma_w',
+    'lucas_f', 'nina_p', 'omar_h', 'selin_a', 'tom_b',
+    'ada_l', 'kerem_08', 'luna_x', 'mert_23', 'nora_k'
+];
+
+const randomTimes = [
+    'Az önce', '1 dk önce', '2 dk önce', '5 dk önce',
+    '10 dk önce', '15 dk önce', '30 dk önce', '45 dk önce',
+    '1 saat önce', '2 saat önce', '3 saat önce', 'Bugün',
+    'Bugün', 'Dün', 'Dün'
+];
+
+function generateRandomWithdrawals() {
+    withdrawalsList.innerHTML = '';
+    
+    const count = 3 + Math.floor(Math.random() * 2);
+    
+    for (let i = 0; i < count; i++) {
+        const randomName = randomNames[Math.floor(Math.random() * randomNames.length)];
+        const randomTime = randomTimes[Math.floor(Math.random() * randomTimes.length)];
+        const randomAmount = (50 + Math.random() * 4950).toFixed(2);
+        
+        const item = document.createElement('div');
+        item.className = 'withdrawal-item';
+        item.innerHTML = `
+            <div>
+                <div class="withdrawal-user">***${randomName}</div>
+                <div class="withdrawal-time">${randomTime}</div>
+            </div>
+            <div class="withdrawal-amount">+${randomAmount} TL</div>
+        `;
+        
+        withdrawalsList.appendChild(item);
+    }
+}
+
 watchAdBtn.addEventListener('click', async () => {
     if (watchAdBtn.classList.contains('disabled')) return;
     
@@ -219,11 +254,25 @@ watchAdBtn.addEventListener('click', async () => {
                 const data = await response.json();
                 if (data.success) {
                     coinBalance = data.new_balance;
+                    totalEarned = data.total_earned;
                     adsWatched += 1;
+                    
+                    const oldLig = getLig(totalEarned - 1).name;
+                    const newLig = getLig(totalEarned).name;
+                    
                     spawnCoinRain();
                     shimmerBalanceCard();
                     showToast('+1 Coin Eklendi!');
                     updateBalance(true);
+                    
+                    if (oldLig !== newLig) {
+                        tg.showPopup({
+                            title: '🎉 Lig Atladınız!',
+                            message: `${oldLig} liginden ${newLig} ligine yükseldiniz!`,
+                            buttons: [{type: 'ok'}]
+                        });
+                    }
+                    
                     tg.HapticFeedback.notificationOccurred('success');
                 }
             } catch (e) {
@@ -263,7 +312,7 @@ document.getElementById('refBtn').addEventListener('click', () => {
 document.getElementById('premiumBtn').addEventListener('click', () => {
     tg.showPopup({
         title: 'Premium',
-        message: 'Reklam başına 0.5 TL kazan\nSınırsız reklam izleme\nİstanbulkart yükleme\n\nFiyat: 100 TL (Tek Seferlik)\n📩 @turancoinsdestek',
+        message: 'Reklam başına 2 kat kazanç\nSınırsız reklam izleme\nİstanbulkart yükleme\n\nFiyat: 100 TL (Tek Seferlik)\n📩 @turancoinsdestek',
         buttons: [{type: 'ok'}]
     });
 });

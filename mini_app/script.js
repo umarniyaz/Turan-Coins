@@ -22,6 +22,7 @@ const premiumIcon = document.getElementById('premiumIcon');
 const coinRain = document.getElementById('coinRain');
 const balanceCard = document.getElementById('balanceCard');
 const withdrawalsList = document.getElementById('withdrawalsList');
+const toast = document.getElementById('toast');
 
 let coinBalance = 0;
 let adsWatched = 0;
@@ -36,7 +37,6 @@ if (hour >= 18) greeting = 'İyi akşamlar';
 greetingEl.textContent = greeting;
 usernameEl.textContent = firstName;
 
-// Rastgele çekimler
 const randomNames = [
     'mehmet_47', 'ayse_kar', 'can_34', 'elif_99', 'john_doe',
     'maria_silva', 'ahmed_77', 'elena_volk', 'yusuf_ali', 'zeynep_01',
@@ -55,7 +55,7 @@ const randomTimes = [
 function generateRandomWithdrawals() {
     withdrawalsList.innerHTML = '';
     
-    const count = 3 + Math.floor(Math.random() * 2); // 3-4 kayıt
+    const count = 3 + Math.floor(Math.random() * 2);
     
     for (let i = 0; i < count; i++) {
         const randomName = randomNames[Math.floor(Math.random() * randomNames.length)];
@@ -188,6 +188,17 @@ function shimmerBalanceCard() {
     }, 1000);
 }
 
+function showToast(message) {
+    toast.textContent = message;
+    toast.classList.remove('hide');
+    toast.classList.add('show');
+    
+    setTimeout(() => {
+        toast.classList.remove('show');
+        toast.classList.add('hide');
+    }, 2000);
+}
+
 watchAdBtn.addEventListener('click', async () => {
     if (watchAdBtn.classList.contains('disabled')) return;
     
@@ -211,6 +222,7 @@ watchAdBtn.addEventListener('click', async () => {
                     adsWatched += 1;
                     spawnCoinRain();
                     shimmerBalanceCard();
+                    showToast('+1 Coin Eklendi!');
                     updateBalance(true);
                     tg.HapticFeedback.notificationOccurred('success');
                 }
@@ -243,7 +255,7 @@ watchAdBtn.addEventListener('click', async () => {
 document.getElementById('refBtn').addEventListener('click', () => {
     tg.showPopup({
         title: 'Arkadaş Davet Et',
-        message: 'Her davet ettiğin arkadaşın için 100 coin kazan!\n\nReferans linkini bot üzerinden alabilirsin.',
+        message: 'Her davet ettiğin arkadaşın için 50 coin kazan!',
         buttons: [{type: 'ok'}]
     });
 });
@@ -251,12 +263,11 @@ document.getElementById('refBtn').addEventListener('click', () => {
 document.getElementById('premiumBtn').addEventListener('click', () => {
     tg.showPopup({
         title: 'Premium',
-        message: 'Reklam başına 0.5 TL kazan\nSınırsız reklam izleme\nİstanbulkart yükleme\n\nFiyat: 100 TL\n📩 @turancoinsdestek',
+        message: 'Reklam başına 0.5 TL kazan\nSınırsız reklam izleme\nİstanbulkart yükleme\n\nFiyat: 100 TL (Tek Seferlik)\n📩 @turancoinsdestek',
         buttons: [{type: 'ok'}]
     });
 });
 
-// Başlangıç
 generateRandomWithdrawals();
 loadUserData();
 tg.ready();

@@ -400,3 +400,32 @@ body {
         transform: translateY(100vh) rotate(720deg) scale(0.5);
     }
 }
+
+/* Toast Bildirimi */
+.toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100px);
+    background: linear-gradient(135deg, #00FF88, #00CC6A);
+    color: #0D0D0D;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 14px;
+    box-shadow: 0 8px 30px rgba(0, 255, 136, 0.4);
+    z-index: 2000;
+    opacity: 0;
+    transition: all 0.4s ease;
+    white-space: nowrap;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast.hide {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-100px);
+}

@@ -495,4 +495,146 @@ usernameEl.textContent = firstName + (lastName ? ' ' + lastName : '');
 
 generateRandomWithdrawals();
 loadUserData();
+// Miner Sistemi
+let minerActive = false;
+let minerPlan = 'temel';
+let minerStartTime = null;
+let minerEndTime = null;
+let minerCoins = 0;
+let minerTimerInterval = null;
+
+const minerPlans = {
+    'temel': { name: 'Temel', rate: 1, duration: 3 * 60 * 60, durationText: '3 saat' },
+    'pro': { name: 'Pro', rate: 3, duration: 24 * 60 * 60, durationText: '24 saat' },
+    'apex': { name: 'Apex', rate: 10, duration: 30 * 24 * 60 * 60, durationText: '30 gün' }
+};
+
+// Coin üretim hızı (saniyede üretilen coin)
+const minerCoinRate = 8 / (3 * 60 * 60); // Temel: günde 8 coin
+
+function updateMinerUI() {
+    const statusBadge = document.getElementById('minerStatusBadge');
+    const startBtn = document.getElementById('minerStartBtn');
+    const timerEl = document.getElementById('minerTimer');
+    const coinAmountEl = document.getElementById('minerCoinAmount');
+    const progressFill = document.getElementById('minerProgressFill');
+    const planName = document.getElementById('currentMinerPlan');
+    const planRate = document.getElementById('currentMinerRate');
+    const planDuration = document.getElementById('currentMinerDuration');
+    const btnDesc = document.getElementById('minerBtnDesc');
+    
+    const plan = minerPlans[minerPlan];
+    planName.textContent = plan.name;
+    planRate.textContent = plan.rate + 'x';
+    planDuration.textContent = plan.durationText;
+    
+    if (minerActive) {
+        statusBadge.textContent = 'Aktif';
+        statusBadge.classList.add('active');
+        startBtn.textContent = '■ Durdur';
+        startBtn.classList.remove('stopped');
+        btnDesc.textContent = 'Çalışıyor...';
+        
+        const now = Date.now() / 1000;
+        const remaining = minerEndTime - now;
+        const total = minerEndTime - minerStartTime;
+        const passed = total - remaining;
+        const percent = (passed / total) * 100;
+        
+        progressFill.style.width = percent + '%';
+        
+        const h = Math.floor(remaining / 3600);
+        const m = Math.floor((remaining % 3600) / 60);
+        const s = Math.floor(remaining % 60);
+        timerEl.textContent = `Kalan: ${String(h).padStart(2,'0')}s ${String(m).padStart(2,'0')}d ${String(s).padStart(2,'0')}sn`;
+        
+        // Üretilen coin
+        const producedCoins = Math.floor(passed * minerCoinRate * plan.rate);
+        coinAmountEl.textContent = producedCoins;
+        
+        if (remaining <= 0) {
+            stopMiner();
+        }
+    } else {
+        statusBadge.textContent = 'Pasif';
+        statusBadge.classList.remove('active');
+        startBtn.textContent = '▶ Başlat';
+        startBtn.classList.add('stopped');
+        btnDesc.textContent = 'Başlatmak için tıkla';
+        timerEl.textContent = 'Başlamaya hazır';
+        progressFill.style.width = '0%';
+        coinAmountEl.textContent = '0';
+    }
+}
+
+function startMiner() {
+    minerActive = true;
+    minerStartTime = Date.now() / 1000;
+    minerEndTime = minerStartTime + minerPlans[minerPlan].duration;
+    minerCoins = 0;
+    
+    minerTimerInterval = setInterval(updateMinerUI, 1000);
+    updateMinerUI();
+    
+    showToast('⚡ Madenci Başlatıldı!');
+    tg.HapticFeedback.notificationOccurred('success');
+}
+
+function stopMiner() {
+    minerActive = false;
+    if (minerTimerInterval) {
+        clearInterval(minerTimerInterval);
+    }
+    minerTimerInterval = null;
+    updateMinerUI();
+    
+    showToast('⏹️ Madenci Durduruldu');
+}
+
+// Miner sayfasına geçiş
+document.getElementById('minerBtn').addEventListener('click', () => {
+    navItems.forEach(nav => nav.classList.remove('active'));
+    Object.keys(pages).forEach(key => pages[key].classList.remove('active'));
+    pages['page-miner'].classList.add('active');
+    updateMinerUI();
+});
+
+// Geri dön - Ana sayfaya dönüş için bottom nav yeterli
+
+// Miner başlat/durdur
+document.getElementById('minerStartBtn').addEventListener('click', () => {
+    if (minerActive) {
+        stopMiner();
+    } else {
+        startMiner();
+    }
+});
+
+// Yükselt butonu
+document.getElementById('minerUpgradeBtn').addEventListener('click', () => {
+    const packages = document.getElementById('upgradePackages');
+    if (packages.style.display === 'none') {
+        packages.style.display = 'block';
+    } else {
+        packages.style.display = 'none';
+    }
+});
+
+// Paket seçimi
+document.querySelectorAll('.miner-select-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const packageType = btn.dataset.package;
+        
+        if (packageType === 'pro') {
+            const text = `Pro Madenci satın almak istiyorum. ID: ${userId}. Paket: Pro (100 TL/ay)`;
+            window.open(`https://t.me/turancoinsdestek?text=${encodeURIComponent(text)}`, '_blank');
+        } else if (packageType === 'apex') {
+            const text = `Apex Madenci satın almak istiyorum. ID: ${userId}. Paket: Apex (300 TL/ay)`;
+            window.open(`https://t.me/turancoinsdestek?text=${encodeURIComponent(text)}`, '_blank');
+        }
+    });
+});
+
+// Miner sayfasını pages objesine ekle
+pages['page-miner'] = document.getElementById('page-miner');
 tg.ready();

@@ -54,6 +54,22 @@
                 </div>
             </div>
 
+            <!-- Miner Butonu -->
+            <div class="miner-btn-card" id="minerBtn">
+                <div class="miner-btn-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2L3 7L12 12L21 7L12 2Z" stroke="#F0B90B" stroke-width="1.5" fill="none"/>
+                        <path d="M3 12L12 17L21 12" stroke="#F0B90B" stroke-width="1.5" fill="none"/>
+                        <path d="M3 17L12 22L21 17" stroke="#F0B90B" stroke-width="1.5" fill="none"/>
+                    </svg>
+                </div>
+                <div class="miner-btn-info">
+                    <div class="miner-btn-title">Madenci</div>
+                    <div class="miner-btn-desc" id="minerBtnDesc">Başlatmak için tıkla</div>
+                </div>
+                <span class="miner-btn-arrow">›</span>
+            </div>
+
             <div class="progress-card">
                 <div class="progress-header">
                     <span class="progress-title">Günlük İlerleme</span>
@@ -106,6 +122,80 @@
             <div class="withdrawals-card">
                 <div class="section-title">Son Çekimler</div>
                 <div id="withdrawalsList"></div>
+            </div>
+        </div>
+
+        <!-- Madenci Sayfası -->
+        <div class="page" id="page-miner">
+            <div class="page-header">
+                <div class="page-header-title">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2L3 7L12 12L21 7L12 2Z" stroke="#F0B90B" stroke-width="1.5" fill="none"/>
+                        <path d="M3 12L12 17L21 12" stroke="#F0B90B" stroke-width="1.5" fill="none"/>
+                        <path d="M3 17L12 22L21 17" stroke="#F0B90B" stroke-width="1.5" fill="none"/>
+                    </svg>
+                    <h2>Madenci</h2>
+                </div>
+                <p class="page-subtitle">Otomatik coin kazan</p>
+            </div>
+
+            <div class="miner-status-card">
+                <div class="miner-status-header">
+                    <span>Madenci Durumu</span>
+                    <span class="miner-status-badge" id="minerStatusBadge">Pasif</span>
+                </div>
+                <div class="miner-status-info">
+                    <div class="miner-coin-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="10" fill="#F0B90B"/>
+                            <text x="12" y="16" text-anchor="middle" fill="#0D0D0D" font-weight="800" font-size="11">₺</text>
+                        </svg>
+                    </div>
+                    <div class="miner-coin-count">
+                        <div class="miner-coin-label">Üretilen Coin</div>
+                        <div class="miner-coin-amount" id="minerCoinAmount">0</div>
+                    </div>
+                </div>
+                <div class="miner-timer" id="minerTimer">Başlamaya hazır</div>
+                <div class="miner-progress-bar">
+                    <div class="miner-progress-fill" id="minerProgressFill" style="width:0%;"></div>
+                </div>
+                <button class="miner-start-btn" id="minerStartBtn">▶ Başlat</button>
+            </div>
+
+            <div class="miner-info-card">
+                <div class="miner-info-title">Mevcut Plan: <span id="currentMinerPlan">Temel</span></div>
+                <div class="miner-info-detail">Kazanç: <span id="currentMinerRate">1x</span></div>
+                <div class="miner-info-detail">Süre: <span id="currentMinerDuration">3 saat</span></div>
+            </div>
+
+            <button class="miner-upgrade-btn" id="minerUpgradeBtn">⚡ Yükselt</button>
+
+            <div id="upgradePackages" style="display:none;">
+                <div class="miner-package-card">
+                    <div class="miner-package-header">
+                        <span class="miner-package-name">⚡ Pro Madenci</span>
+                        <span class="miner-package-price">100 TL / ay</span>
+                    </div>
+                    <div class="miner-package-features">
+                        <div>🔥 3x Coin Kazanımı</div>
+                        <div>⏰ 24 saat kesintisiz</div>
+                        <div>📱 Tek tıkla yönetim</div>
+                    </div>
+                    <button class="miner-select-btn" data-package="pro">Seç</button>
+                </div>
+                <div class="miner-package-card apex">
+                    <div class="miner-package-header">
+                        <span class="miner-package-name">💎 Apex Madenci</span>
+                        <span class="miner-package-price">300 TL / ay</span>
+                    </div>
+                    <div class="miner-package-features">
+                        <div>🚀 10x Coin Kazanımı</div>
+                        <div>♾️ 30 gün kesintisiz</div>
+                        <div>👑 Öncelikli destek</div>
+                    </div>
+                    <button class="miner-select-btn" data-package="apex">Seç</button>
+                </div>
             </div>
         </div>
 

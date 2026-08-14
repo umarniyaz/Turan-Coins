@@ -529,7 +529,7 @@ function updateMinerUI() {
     if (minerActive) {
         statusBadge.textContent = 'Aktif';
         statusBadge.classList.add('active');
-        startBtn.textContent = '⚒️ Kazıyor...';
+        startBtn.innerHTML = '<svg class="pickaxe-icon" width="18" height="18" viewBox="0 0 100 100" fill="none" style="flex-shrink:0;"><line x1="25" y1="85" x2="72" y2="32" stroke="#8B6914" stroke-width="6" stroke-linecap="round"/><path d="M68 25C74 18 84 15 90 20C86 28 80 35 72 40L68 25Z" fill="#C0C0C0"/><path d="M90 20C96 25 92 34 84 40L72 40L90 20Z" fill="#E0E0E0"/></svg><span>Kazıyor...</span>';
         startBtn.classList.remove('stopped');
         startBtn.classList.add('running');
         btnDesc.textContent = 'Madencilik sürüyor...';
@@ -557,7 +557,7 @@ function updateMinerUI() {
     } else {
         statusBadge.textContent = 'Pasif';
         statusBadge.classList.remove('active');
-        startBtn.textContent = '▶ Başlat';
+        startBtn.innerHTML = '<svg class="pickaxe-icon" width="18" height="18" viewBox="0 0 100 100" fill="none" style="flex-shrink:0;"><line x1="25" y1="85" x2="72" y2="32" stroke="#8B6914" stroke-width="6" stroke-linecap="round"/><path d="M68 25C74 18 84 15 90 20C86 28 80 35 72 40L68 25Z" fill="#C0C0C0"/><path d="M90 20C96 25 92 34 84 40L72 40L90 20Z" fill="#E0E0E0"/></svg><span>Başlat</span>';
         startBtn.classList.remove('running');
         startBtn.classList.add('stopped');
         btnDesc.textContent = 'Başlatmak için tıkla';

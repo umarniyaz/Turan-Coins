@@ -542,10 +542,11 @@ function updateMinerUI() {
         
         progressFill.style.width = percent + '%';
         
-        const h = Math.floor(remaining / 3600);
-        const m = Math.floor((remaining % 3600) / 60);
-        const s = Math.floor(remaining % 60);
-        timerEl.textContent = `Kalan: ${String(h).padStart(2,'0')}s ${String(m).padStart(2,'0')}d ${String(s).padStart(2,'0')}sn`;
+        const days = Math.floor(remaining / 86400);
+        const hours = Math.floor((remaining % 86400) / 3600);
+        const mins = Math.floor((remaining % 3600) / 60);
+        const secs = Math.floor(remaining % 60);
+        timerEl.textContent = `Kalan: ${days}g ${String(hours).padStart(2,'0')}s ${String(mins).padStart(2,'0')}d ${String(secs).padStart(2,'0')}sn`;
         
         const sessionEarned = passed * minerCoinRate * plan.rate;
         const totalDisplay = minerTotalCoins + sessionEarned;

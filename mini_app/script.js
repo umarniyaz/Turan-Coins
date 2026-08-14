@@ -8,10 +8,13 @@ const userId = user.id || 0;
 
 const API_URL = 'https://turancoin-bot.onrender.com';
 
+// Elementler
 const greetingEl = document.getElementById('greeting');
 const usernameEl = document.getElementById('username');
 const coinBalanceEl = document.getElementById('coinBalance');
+const walletCoinBalanceEl = document.getElementById('walletCoinBalance');
 const tlBalanceEl = document.getElementById('tlBalance');
+const walletTlBalanceEl = document.getElementById('walletTlBalance');
 const progressFill = document.getElementById('progressFill');
 const progressEarned = document.getElementById('progressEarned');
 const progressTarget = document.getElementById('progressTarget');
@@ -28,6 +31,7 @@ const ligName = document.getElementById('ligName');
 const ligMedal = document.getElementById('ligMedal');
 const ligDetail = document.getElementById('ligDetail');
 const ligProgressFill = document.getElementById('ligProgressFill');
+const referralLink = document.getElementById('referralLink');
 
 let coinBalance = 0;
 let adsWatched = 0;
@@ -36,6 +40,7 @@ let totalEarned = 0;
 let currentLigRate = 0.03;
 const DAILY_LIMIT = 50;
 
+// Lig sistemi
 const ligIcons = {
     'Bronz': { letter: 'B', cssClass: 'bronz' },
     'Gümüş': { letter: 'G', cssClass: 'gumus' },
@@ -59,11 +64,9 @@ function updateLigCard() {
     currentLigRate = isPremium ? lig.rate * 2 : lig.rate;
     
     ligName.textContent = lig.name;
-    
     const iconData = ligIcons[lig.name];
     ligMedal.className = 'lig-medal ' + iconData.cssClass;
     ligMedal.querySelector('.lig-medal-inner').textContent = iconData.letter;
-    
     ligDetail.textContent = currentLigRate.toFixed(2) + ' TL / reklam';
     
     if (lig.next) {
@@ -74,6 +77,7 @@ function updateLigCard() {
     }
 }
 
+// Zamanlayıcı
 function updateTimer() {
     const now = new Date();
     const midnight = new Date(now);
@@ -87,32 +91,33 @@ function updateTimer() {
 updateTimer();
 setInterval(updateTimer, 1000);
 
+// Sayı animasyonu
 function animateNumber(el, newValue) {
     const oldValue = parseInt(el.textContent) || 0;
     if (oldValue === newValue) return;
     
     el.classList.add('number-animate-out');
-    
     setTimeout(() => {
         el.textContent = newValue;
         el.classList.remove('number-animate-out');
         el.classList.add('number-animate-in');
-        
-        setTimeout(() => {
-            el.classList.remove('number-animate-in');
-        }, 300);
+        setTimeout(() => el.classList.remove('number-animate-in'), 300);
     }, 150);
 }
 
+// Bakiye güncelle
 function updateBalance(animate = false) {
     if (animate) {
         animateNumber(coinBalanceEl, coinBalance);
+        animateNumber(walletCoinBalanceEl, coinBalance);
     } else {
         coinBalanceEl.textContent = coinBalance;
+        walletCoinBalanceEl.textContent = coinBalance;
     }
     
     const tlValue = coinBalance * currentLigRate;
     tlBalanceEl.textContent = tlValue.toFixed(2);
+    walletTlBalanceEl.textContent = tlValue.toFixed(2);
     
     const earnedToday = adsWatched * currentLigRate;
     const percent = Math.min((earnedToday / 5) * 100, 100);
@@ -133,6 +138,7 @@ function updateBalance(animate = false) {
     updateLigCard();
 }
 
+// Kullanıcı verisi
 async function loadUserData() {
     try {
         const response = await fetch(API_URL + '/api/get_user', {
@@ -158,24 +164,21 @@ async function loadUserData() {
     }
 }
 
+// Coin yağmuru
 function spawnCoinRain() {
     for (let i = 0; i < 15; i++) {
         setTimeout(() => {
             const coin = document.createElement('div');
             coin.className = 'coin-fall';
-            
             const inner = document.createElement('div');
             inner.className = 'coin-fall-inner';
             coin.appendChild(inner);
-            
             coin.style.left = Math.random() * 90 + 5 + '%';
             coin.style.animationDuration = (Math.random() * 1 + 1.5) + 's';
             coin.style.animationDelay = Math.random() * 0.5 + 's';
-            
             const size = Math.random() * 16 + 12;
             coin.style.width = size + 'px';
             coin.style.height = size + 'px';
-            
             coinRain.appendChild(coin);
             setTimeout(() => coin.remove(), 3000);
         }, i * 60);
@@ -184,22 +187,20 @@ function spawnCoinRain() {
 
 function shimmerBalanceCard() {
     balanceCard.classList.add('shimmer');
-    setTimeout(() => {
-        balanceCard.classList.remove('shimmer');
-    }, 1000);
+    setTimeout(() => balanceCard.classList.remove('shimmer'), 1000);
 }
 
 function showToast(message) {
     toast.textContent = message;
     toast.classList.remove('hide');
     toast.classList.add('show');
-    
     setTimeout(() => {
         toast.classList.remove('show');
         toast.classList.add('hide');
     }, 2000);
 }
 
+// Rastgele çekimler
 const randomNames = [
     'mehmet_47', 'ayse_kar', 'can_34', 'elif_99', 'john_doe',
     'maria_silva', 'ahmed_77', 'elena_volk', 'yusuf_ali', 'zeynep_01',
@@ -217,7 +218,6 @@ const randomTimes = [
 
 function generateRandomWithdrawals() {
     withdrawalsList.innerHTML = '';
-    
     const count = 3 + Math.floor(Math.random() * 2);
     
     for (let i = 0; i < count; i++) {
@@ -234,11 +234,11 @@ function generateRandomWithdrawals() {
             </div>
             <div class="withdrawal-amount">+${randomAmount} TL</div>
         `;
-        
         withdrawalsList.appendChild(item);
     }
 }
 
+// Reklam izleme
 watchAdBtn.addEventListener('click', async () => {
     if (watchAdBtn.classList.contains('disabled')) return;
     
@@ -251,10 +251,7 @@ watchAdBtn.addEventListener('click', async () => {
                 const response = await fetch(API_URL + '/api/add_coins', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        user_id: userId,
-                        coins: 1
-                    })
+                    body: JSON.stringify({ user_id: userId, coins: 1 })
                 });
                 const data = await response.json();
                 if (data.success) {
@@ -281,11 +278,7 @@ watchAdBtn.addEventListener('click', async () => {
                     tg.HapticFeedback.notificationOccurred('success');
                 }
             } catch (e) {
-                tg.showPopup({
-                    title: 'Hata',
-                    message: 'Coin eklenemedi.',
-                    buttons: [{type: 'ok'}]
-                });
+                tg.showPopup({ title: 'Hata', message: 'Coin eklenemedi.', buttons: [{type: 'ok'}] });
             }
             
             watchAdBtn.innerHTML = '<span class="btn-icon">▶</span><span>Reklam İzle</span>';
@@ -306,12 +299,45 @@ watchAdBtn.addEventListener('click', async () => {
     }
 });
 
-document.getElementById('refBtn').addEventListener('click', () => {
-    tg.showPopup({
-        title: 'Arkadaş Davet Et',
-        message: 'Her davet ettiğin arkadaşın için 50 coin kazan!',
-        buttons: [{type: 'ok'}]
+// Alt navigasyon
+const navItems = document.querySelectorAll('.nav-item');
+const pages = {
+    'page-home': document.getElementById('page-home'),
+    'page-tasks': document.getElementById('page-tasks'),
+    'page-referral': document.getElementById('page-referral'),
+    'page-wallet': document.getElementById('page-wallet')
+};
+
+navItems.forEach(item => {
+    item.addEventListener('click', () => {
+        const pageId = item.dataset.page;
+        
+        navItems.forEach(nav => nav.classList.remove('active'));
+        item.classList.add('active');
+        
+        Object.keys(pages).forEach(key => {
+            pages[key].classList.remove('active');
+        });
+        pages[pageId].classList.add('active');
+        
+        tg.HapticFeedback.impactOccurred('light');
     });
+});
+
+// Referans linki
+referralLink.textContent = `https://t.me/turancoinsbot?start=${userId}`;
+
+document.getElementById('copyBtn').addEventListener('click', () => {
+    navigator.clipboard.writeText(referralLink.textContent);
+    showToast('Link kopyalandı!');
+});
+
+// Butonlar
+document.getElementById('refBtn').addEventListener('click', () => {
+    navItems.forEach(nav => nav.classList.remove('active'));
+    navItems[2].classList.add('active');
+    Object.keys(pages).forEach(key => pages[key].classList.remove('active'));
+    pages['page-referral'].classList.add('active');
 });
 
 document.getElementById('premiumBtn').addEventListener('click', () => {
@@ -322,7 +348,40 @@ document.getElementById('premiumBtn').addEventListener('click', () => {
     });
 });
 
-// Selamlama
+// Cüzdan seçenekleri
+document.getElementById('withdrawOption').addEventListener('click', () => {
+    tg.showPopup({
+        title: 'TL Çekim',
+        message: `Mevcut bakiye: ${(coinBalance * currentLigRate).toFixed(2)} TL\nMin: 50 TL\n\n📩 @turancoinsdestek`,
+        buttons: [{type: 'ok'}]
+    });
+});
+
+document.getElementById('kartOption').addEventListener('click', () => {
+    if (!isPremium) {
+        tg.showPopup({
+            title: 'Premium Gerekli',
+            message: 'İstanbulkart yükleme sadece premium kullanıcılara özeldir.',
+            buttons: [{type: 'ok'}]
+        });
+        return;
+    }
+    tg.showPopup({
+        title: 'İstanbulkart Yükleme',
+        message: `Mevcut bakiye: ${(coinBalance * currentLigRate).toFixed(2)} TL\nYüklenecek: 50 TL\n\n📩 @turancoinsdestek`,
+        buttons: [{type: 'ok'}]
+    });
+});
+
+document.getElementById('ucOption').addEventListener('click', () => {
+    tg.showPopup({
+        title: 'PUBG Mobile UC',
+        message: 'Yakında aktif olacak!\n\nCoin\'lerinizi UC\'ye çevirebileceksiniz.',
+        buttons: [{type: 'ok'}]
+    });
+});
+
+// Başlangıç
 const hour = new Date().getHours();
 let greetingText = 'Günaydın';
 if (hour >= 12 && hour < 18) greetingText = 'İyi günler';

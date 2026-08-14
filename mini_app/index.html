@@ -9,103 +9,198 @@
 </head>
 <body>
     <div class="app-container">
-        <!-- Header -->
-        <div class="header">
-            <div class="header-left">
-                <div class="greeting" id="greeting">Günaydın</div>
-                <div class="user-row">
-                    <span class="username" id="username">Kullanıcı</span>
-                    <span class="verified">✔</span>
+        <!-- Ana Sayfa Sekmesi -->
+        <div class="page active" id="page-home">
+            <div class="header">
+                <div class="header-left">
+                    <div class="greeting" id="greeting">Günaydın</div>
+                    <div class="user-row">
+                        <span class="username" id="username">Kullanıcı</span>
+                        <span class="verified">✔</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="currency-badge">TL</div>
+                    <span class="premium-icon" id="premiumIcon" style="display:none;">👑</span>
                 </div>
             </div>
-            <div class="header-right">
-                <div class="currency-badge">TL</div>
-                <span class="premium-icon" id="premiumIcon" style="display:none;">👑</span>
+
+            <div class="lig-card" id="ligCard">
+                <div class="lig-medal" id="ligMedal">
+                    <div class="lig-medal-inner">B</div>
+                </div>
+                <div class="lig-info">
+                    <div class="lig-name" id="ligName">Bronz</div>
+                    <div class="lig-detail" id="ligDetail">0.03 TL / reklam</div>
+                </div>
+                <div class="lig-progress">
+                    <div class="lig-progress-fill" id="ligProgressFill" style="width:0%;"></div>
+                </div>
+            </div>
+
+            <div class="balance-card" id="balanceCard">
+                <div class="balance-label">Toplam Bakiye</div>
+                <div class="balance-row">
+                    <span class="balance-amount" id="coinBalance">0</span>
+                    <span class="balance-unit">COIN</span>
+                </div>
+                <div style="font-size:16px;color:#F0B90B;font-weight:600;margin-top:4px;">
+                    ≈ <span id="tlBalance">0.00</span> TL
+                </div>
+            </div>
+
+            <div class="progress-card">
+                <div class="progress-header">
+                    <span class="progress-title">Günlük İlerleme</span>
+                    <span class="progress-timer" id="progressTimer">Sıfırlanmasına: --:--:--</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width:0%;"></div>
+                </div>
+                <div class="progress-info">
+                    <span id="progressEarned">0.00 TL</span>
+                    <span id="progressTarget">5 TL</span>
+                </div>
+                <div style="font-size:11px;color:#444;margin-top:6px;">Bugün izlenen: <span id="adsWatched">0</span>/50</div>
+            </div>
+
+            <button class="main-button" id="watchAdBtn">
+                <span class="btn-icon">▶</span>
+                <span>Reklam İzle</span>
+            </button>
+
+            <div class="boost-section">
+                <div class="boost-card" id="refBtn">
+                    <div class="boost-icon">👥</div>
+                    <div class="boost-title">Arkadaş Davet Et</div>
+                    <div class="boost-reward">+50 Coin</div>
+                    <div class="boost-detail">Davet başına</div>
+                </div>
+                <div class="boost-card" id="premiumBtn">
+                    <div class="boost-icon">👑</div>
+                    <div class="boost-title">Premium</div>
+                    <div class="boost-reward">2 Kat Kazanç</div>
+                    <div class="boost-detail">100 TL / Tek Seferlik</div>
+                </div>
+            </div>
+
+            <div class="premium-card" id="premiumCard">
+                <div class="premium-header">👑 Premium Aktif</div>
+                <div class="premium-features">
+                    2 Kat Kazanç &nbsp;|&nbsp; Sınırsız Reklam &nbsp;|&nbsp; İstanbulkart
+                </div>
+            </div>
+
+            <div class="withdrawals-card">
+                <div class="section-title">Son Çekimler</div>
+                <div id="withdrawalsList"></div>
             </div>
         </div>
 
-        <!-- Lig Rozeti -->
-        <div class="lig-card" id="ligCard">
-            <div class="lig-medal" id="ligMedal">
-                <div class="lig-medal-inner">B</div>
+        <!-- Görevler Sekmesi -->
+        <div class="page" id="page-tasks">
+            <div class="page-header">
+                <h2>📋 Görevler</h2>
+                <p class="page-subtitle">Ekstra coin kazan</p>
             </div>
-            <div class="lig-info">
-                <div class="lig-name" id="ligName">Bronz</div>
-                <div class="lig-detail" id="ligDetail">0.03 TL / reklam</div>
-            </div>
-            <div class="lig-progress">
-                <div class="lig-progress-fill" id="ligProgressFill" style="width:0%;"></div>
+            <div id="tasksList" class="tasks-list">
+                <div class="empty-state">Yakında görevler eklenecek</div>
             </div>
         </div>
 
-        <!-- Bakiye -->
-        <div class="balance-card" id="balanceCard">
-            <div class="balance-label">Toplam Bakiye</div>
-            <div class="balance-row">
-                <span class="balance-amount" id="coinBalance">0</span>
-                <span class="balance-unit">COIN</span>
+        <!-- Davet Sekmesi -->
+        <div class="page" id="page-referral">
+            <div class="page-header">
+                <h2>👥 Davet Et</h2>
+                <p class="page-subtitle">Arkadaşını getir, kazan</p>
             </div>
-            <div style="font-size:16px;color:#F0B90B;font-weight:600;margin-top:4px;">
-                ≈ <span id="tlBalance">0.00</span> TL
+            <div class="referral-card">
+                <div class="referral-reward">+50 COIN</div>
+                <div class="referral-text">Her davet ettiğin arkadaşın için</div>
             </div>
-        </div>
-
-        <!-- Günlük İlerleme -->
-        <div class="progress-card">
-            <div class="progress-header">
-                <span class="progress-title">Günlük İlerleme</span>
-                <span class="progress-timer" id="progressTimer">Sıfırlanmasına: --:--:--</span>
+            <div class="referral-link-box">
+                <div class="referral-link-label">Referans Linkin</div>
+                <div class="referral-link" id="referralLink">https://t.me/turancoinsbot?start=</div>
+                <button class="copy-btn" id="copyBtn">📋 Kopyala</button>
             </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill" style="width:0%;"></div>
-            </div>
-            <div class="progress-info">
-                <span id="progressEarned">0.00 TL</span>
-                <span id="progressTarget">5 TL</span>
-            </div>
-            <div style="font-size:11px;color:#444;margin-top:6px;">Bugün izlenen: <span id="adsWatched">0</span>/50</div>
-        </div>
-
-        <!-- Ana Buton -->
-        <button class="main-button" id="watchAdBtn">
-            <span class="btn-icon">▶</span>
-            <span>Reklam İzle</span>
-        </button>
-
-        <!-- Boost Kartları -->
-        <div class="boost-section">
-            <div class="boost-card" id="refBtn">
-                <div class="boost-icon">👥</div>
-                <div class="boost-title">Arkadaş Davet Et</div>
-                <div class="boost-reward">+50 Coin</div>
-                <div class="boost-detail">Davet başına</div>
-            </div>
-            <div class="boost-card" id="premiumBtn">
-                <div class="boost-icon">👑</div>
-                <div class="boost-title">Premium</div>
-                <div class="boost-reward">2 Kat Kazanç</div>
-                <div class="boost-detail">100 TL / Tek Seferlik</div>
+            <div class="referral-stats">
+                <div class="ref-stat">
+                    <div class="ref-stat-num" id="refCount">0</div>
+                    <div class="ref-stat-label">Davet</div>
+                </div>
+                <div class="ref-stat">
+                    <div class="ref-stat-num" id="refEarned">0</div>
+                    <div class="ref-stat-label">Kazanılan Coin</div>
+                </div>
             </div>
         </div>
 
-        <!-- Premium Aktif Kartı -->
-        <div class="premium-card" id="premiumCard">
-            <div class="premium-header">👑 Premium Aktif</div>
-            <div class="premium-features">
-                2 Kat Kazanç &nbsp;|&nbsp; Sınırsız Reklam &nbsp;|&nbsp; İstanbulkart
+        <!-- Cüzdan Sekmesi -->
+        <div class="page" id="page-wallet">
+            <div class="page-header">
+                <h2>💳 Cüzdan</h2>
+                <p class="page-subtitle">Bakiyeni yönet</p>
+            </div>
+            <div class="wallet-balance">
+                <div class="balance-label">Toplam Bakiye</div>
+                <div class="balance-row">
+                    <span class="balance-amount" id="walletCoinBalance">0</span>
+                    <span class="balance-unit">COIN</span>
+                </div>
+                <div style="font-size:16px;color:#F0B90B;font-weight:600;margin-top:4px;">
+                    ≈ <span id="walletTlBalance">0.00</span> TL
+                </div>
+            </div>
+
+            <div class="wallet-options">
+                <div class="wallet-option" id="withdrawOption">
+                    <div class="wallet-option-icon">💸</div>
+                    <div class="wallet-option-info">
+                        <div class="wallet-option-title">TL Çekim</div>
+                        <div class="wallet-option-desc">IBAN'a para çek</div>
+                    </div>
+                </div>
+                <div class="wallet-option" id="kartOption">
+                    <div class="wallet-option-icon">🚌</div>
+                    <div class="wallet-option-info">
+                        <div class="wallet-option-title">İstanbulkart</div>
+                        <div class="wallet-option-desc">50 TL yükle</div>
+                    </div>
+                </div>
+                <div class="wallet-option" id="ucOption">
+                    <div class="wallet-option-icon">🎮</div>
+                    <div class="wallet-option-info">
+                        <div class="wallet-option-title">PUBG Mobile UC</div>
+                        <div class="wallet-option-desc">Coin ile UC al</div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Son Çekimler -->
-        <div class="withdrawals-card">
-            <div class="section-title">Son Çekimler</div>
-            <div id="withdrawalsList"></div>
+        <!-- Alt Navigasyon -->
+        <div class="bottom-nav">
+            <div class="nav-item active" data-page="page-home">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Ana Sayfa</span>
+            </div>
+            <div class="nav-item" data-page="page-tasks">
+                <span class="nav-icon">📋</span>
+                <span class="nav-label">Görevler</span>
+            </div>
+            <div class="nav-item" data-page="page-referral">
+                <span class="nav-icon">👥</span>
+                <span class="nav-label">Davet</span>
+            </div>
+            <div class="nav-item" data-page="page-wallet">
+                <span class="nav-icon">💳</span>
+                <span class="nav-label">Cüzdan</span>
+            </div>
         </div>
 
         <!-- Coin Rain -->
         <div class="coin-rain" id="coinRain"></div>
 
-        <!-- Toast Bildirimi -->
+        <!-- Toast -->
         <div class="toast" id="toast">+1 Coin Eklendi!</div>
     </div>
 

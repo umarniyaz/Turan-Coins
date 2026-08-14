@@ -687,10 +687,10 @@ body {
 
 .miner-status-info {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
+    align-items: flex-start;
+    gap: 10px;
     margin-bottom: 16px;
+    justify-content: flex-start;
 }
 
 .miner-coin-icon {

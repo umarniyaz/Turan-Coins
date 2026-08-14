@@ -8,7 +8,6 @@ const userId = user.id || 0;
 
 const API_URL = 'https://turancoin-bot.onrender.com';
 
-// Elementler
 const greetingEl = document.getElementById('greeting');
 const usernameEl = document.getElementById('username');
 const coinBalanceEl = document.getElementById('coinBalance');
@@ -40,7 +39,6 @@ let totalEarned = 0;
 let currentLigRate = 0.03;
 const DAILY_LIMIT = 50;
 
-// Lig sistemi
 const ligIcons = {
     'Bronz': { letter: 'B', cssClass: 'bronz' },
     'Gümüş': { letter: 'G', cssClass: 'gumus' },
@@ -77,7 +75,6 @@ function updateLigCard() {
     }
 }
 
-// Zamanlayıcı
 function updateTimer() {
     const now = new Date();
     const midnight = new Date(now);
@@ -91,7 +88,6 @@ function updateTimer() {
 updateTimer();
 setInterval(updateTimer, 1000);
 
-// Sayı animasyonu
 function animateNumber(el, newValue) {
     const oldValue = parseInt(el.textContent) || 0;
     if (oldValue === newValue) return;
@@ -105,7 +101,6 @@ function animateNumber(el, newValue) {
     }, 150);
 }
 
-// Bakiye güncelle
 function updateBalance(animate = false) {
     if (animate) {
         animateNumber(coinBalanceEl, coinBalance);
@@ -138,7 +133,6 @@ function updateBalance(animate = false) {
     updateLigCard();
 }
 
-// Kullanıcı verisi
 async function loadUserData() {
     try {
         const response = await fetch(API_URL + '/api/get_user', {
@@ -164,7 +158,6 @@ async function loadUserData() {
     }
 }
 
-// Coin yağmuru
 function spawnCoinRain() {
     for (let i = 0; i < 15; i++) {
         setTimeout(() => {
@@ -200,7 +193,6 @@ function showToast(message) {
     }, 2000);
 }
 
-// Rastgele çekimler
 const randomNames = [
     'mehmet_47', 'ayse_kar', 'can_34', 'elif_99', 'john_doe',
     'maria_silva', 'ahmed_77', 'elena_volk', 'yusuf_ali', 'zeynep_01',
@@ -238,7 +230,6 @@ function generateRandomWithdrawals() {
     }
 }
 
-// Reklam izleme
 watchAdBtn.addEventListener('click', async () => {
     if (watchAdBtn.classList.contains('disabled')) return;
     
@@ -332,7 +323,7 @@ document.getElementById('copyBtn').addEventListener('click', () => {
     showToast('Link kopyalandı!');
 });
 
-// Butonlar
+// Ana sayfadaki davet kartı
 document.getElementById('refBtn').addEventListener('click', () => {
     navItems.forEach(nav => nav.classList.remove('active'));
     navItems[2].classList.add('active');
@@ -340,17 +331,16 @@ document.getElementById('refBtn').addEventListener('click', () => {
     pages['page-referral'].classList.add('active');
 });
 
+// Premium yönlendirme
 document.getElementById('premiumBtn').addEventListener('click', () => {
-    window.open('https://t.me/turancoinsdestek', '_blank');
+    const text = `Premium üyelik satın almak istiyorum. ID: ${userId}`;
+    window.open(`https://t.me/turancoinsdestek?text=${encodeURIComponent(text)}`, '_blank');
 });
 
 // Cüzdan seçenekleri
 document.getElementById('withdrawOption').addEventListener('click', () => {
-    tg.showPopup({
-        title: 'TL Çekim',
-        message: `Mevcut bakiye: ${(coinBalance * currentLigRate).toFixed(2)} TL\nMin: 50 TL\n\n📩 @turancoinsdestek`,
-        buttons: [{type: 'ok'}]
-    });
+    const text = `Para çekmek istiyorum. ID: ${userId}`;
+    window.open(`https://t.me/turancoinsdestek?text=${encodeURIComponent(text)}`, '_blank');
 });
 
 document.getElementById('kartOption').addEventListener('click', () => {
@@ -362,19 +352,13 @@ document.getElementById('kartOption').addEventListener('click', () => {
         });
         return;
     }
-    tg.showPopup({
-        title: 'İstanbulkart Yükleme',
-        message: `Mevcut bakiye: ${(coinBalance * currentLigRate).toFixed(2)} TL\nYüklenecek: 50 TL\n\n📩 @turancoinsdestek`,
-        buttons: [{type: 'ok'}]
-    });
+    const text = `İstanbulkart yükleme istiyorum. ID: ${userId}`;
+    window.open(`https://t.me/turancoinsdestek?text=${encodeURIComponent(text)}`, '_blank');
 });
 
 document.getElementById('ucOption').addEventListener('click', () => {
-    tg.showPopup({
-        title: 'PUBG Mobile UC',
-        message: 'Yakında aktif olacak!\n\nCoin\'lerinizi UC\'ye çevirebileceksiniz.',
-        buttons: [{type: 'ok'}]
-    });
+    const text = `PUBG Mobile UC almak istiyorum. ID: ${userId}`;
+    window.open(`https://t.me/turancoinsdestek?text=${encodeURIComponent(text)}`, '_blank');
 });
 
 // Başlangıç

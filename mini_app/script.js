@@ -295,6 +295,7 @@ const navItems = document.querySelectorAll('.nav-item');
 const pages = {
     'page-home': document.getElementById('page-home'),
     'page-tasks': document.getElementById('page-tasks'),
+    'page-leaderboard': document.getElementById('page-leaderboard'),
     'page-referral': document.getElementById('page-referral'),
     'page-wallet': document.getElementById('page-wallet')
 };
@@ -311,6 +312,10 @@ navItems.forEach(item => {
         });
         pages[pageId].classList.add('active');
         
+        if (pageId === 'page-leaderboard') {
+            loadLeaderboard();
+        }
+        
         tg.HapticFeedback.impactOccurred('light');
     });
 });
@@ -323,21 +328,18 @@ document.getElementById('copyBtn').addEventListener('click', () => {
     showToast('Link kopyalandı!');
 });
 
-// Ana sayfadaki davet kartı
 document.getElementById('refBtn').addEventListener('click', () => {
     navItems.forEach(nav => nav.classList.remove('active'));
-    navItems[2].classList.add('active');
+    navItems[3].classList.add('active');
     Object.keys(pages).forEach(key => pages[key].classList.remove('active'));
     pages['page-referral'].classList.add('active');
 });
 
-// Premium yönlendirme
 document.getElementById('premiumBtn').addEventListener('click', () => {
     const text = `Premium üyelik satın almak istiyorum. ID: ${userId}`;
     window.open(`https://t.me/turancoinsdestek?text=${encodeURIComponent(text)}`, '_blank');
 });
 
-// Cüzdan - TL Çekim
 document.getElementById('withdrawOption').addEventListener('click', () => {
     const tlValue = coinBalance * currentLigRate;
     
@@ -353,7 +355,7 @@ document.getElementById('withdrawOption').addEventListener('click', () => {
     const text = `Para çekmek istiyorum. ID: ${userId}. Bakiye: ${tlValue.toFixed(2)} TL`;
     window.open(`https://t.me/turancoinsdestek?text=${encodeURIComponent(text)}`, '_blank');
 });
-// Cüzdan - İstanbulkart
+
 document.getElementById('kartOption').addEventListener('click', () => {
     if (!isPremium) {
         tg.showPopup({
@@ -367,7 +369,6 @@ document.getElementById('kartOption').addEventListener('click', () => {
     window.open(`https://t.me/turancoinsdestek?text=${encodeURIComponent(text)}`, '_blank');
 });
 
-// Cüzdan - UC Paketleri
 document.getElementById('ucOption').addEventListener('click', () => {
     const ucPackages = document.getElementById('ucPackages');
     if (ucPackages.style.display === 'none') {
@@ -377,7 +378,6 @@ document.getElementById('ucOption').addEventListener('click', () => {
     }
 });
 
-// UC Paket seçimi
 document.querySelectorAll('.uc-select-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         const ucAmount = btn.dataset.uc;
@@ -446,6 +446,43 @@ document.querySelectorAll('.task-btn').forEach(btn => {
     });
 });
 
+// Liderlik - sahte veri
+const fakeNames = ['Mehmet', 'Aziz', 'Gülnara', 'Timur', 'Ayşe', 'Rustam', 'Dilnoza', 'Batu', 'Zeynep', 'Marat'];
+const fakeAds = [850, 720, 650, 580, 490, 420, 380, 310, 250, 180];
+
+function loadLeaderboard() {
+    const list = document.getElementById('leaderboardList');
+    list.innerHTML = '';
+    
+    for (let i = 0; i < 10; i++) {
+        const item = document.createElement('div');
+        item.className = 'leaderboard-item' + (i === 0 ? ' top1' : '');
+        item.innerHTML = `
+            <div class="leaderboard-rank">${i + 1}</div>
+            <div class="leaderboard-avatar">${fakeNames[i].charAt(0)}</div>
+            <div class="leaderboard-name">${fakeNames[i]}</div>
+            <div class="leaderboard-ads">${fakeAds[i]} reklam</div>
+        `;
+        list.appendChild(item);
+    }
+    
+    document.getElementById('myRank').textContent = '#' + (Math.floor(Math.random() * 20) + 11);
+}
+
+// Geri sayım
+function updateCountdown() {
+    const now = new Date();
+    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+    const diff = endOfMonth - now;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    document.getElementById('countdownTimer').textContent = `${days}g ${String(hours).padStart(2,'0')}s ${String(minutes).padStart(2,'0')}d ${String(seconds).padStart(2,'0')}sn`;
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
 // Başlangıç
 const hour = new Date().getHours();
 let greetingText = 'Günaydın';
@@ -456,50 +493,4 @@ usernameEl.textContent = firstName + (lastName ? ' ' + lastName : '');
 
 generateRandomWithdrawals();
 loadUserData();
-// Liderlik
-async function loadLeaderboard() {
-    try {
-        const response = await fetch(API_URL + '/api/leaderboard', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ user_id: userId })
-        });
-        const data = await response.json();
-        
-        if (data.success) {
-            const leaderboardList = document.getElementById('leaderboardList');
-            leaderboardList.innerHTML = '';
-            
-            if (data.top_users.length === 0) {
-                leaderboardList.innerHTML = '<div class="empty-state">Henüz veri yok</div>';
-            } else {
-                data.top_users.forEach((user, index) => {
-                    const item = document.createElement('div');
-                    item.className = 'leaderboard-item' + (index === 0 ? ' top1' : '');
-                    
-                    const initial = (user.first_name || user.username || 'K').charAt(0).toUpperCase();
-                    
-                    item.innerHTML = `
-                        <div class="leaderboard-rank">${index + 1}</div>
-                        <div class="leaderboard-avatar">${initial}</div>
-                        <div class="leaderboard-name">${user.first_name || user.username}</div>
-                        <div class="leaderboard-ads">${user.ads_count} reklam</div>
-                    `;
-                    
-                    leaderboardList.appendChild(item);
-                });
-            }
-            
-            document.getElementById('myRank').textContent = '#' + data.user_rank;
-        }
-    } catch (e) {
-        console.log('Liderlik yüklenemedi');
-    }
-}
-
-// Liderlik sekmesine geçince yükle
-const leaderboardNavItem = document.querySelector('.nav-item[data-page="page-leaderboard"]');
-leaderboardNavItem.addEventListener('click', () => {
-    loadLeaderboard();
-});
 tg.ready();

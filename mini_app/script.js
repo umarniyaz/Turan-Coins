@@ -341,11 +341,7 @@ document.getElementById('refBtn').addEventListener('click', () => {
 });
 
 document.getElementById('premiumBtn').addEventListener('click', () => {
-    tg.showPopup({
-        title: 'Premium',
-        message: 'Reklam başına 2 kat kazanç\nSınırsız reklam izleme\nİstanbulkart yükleme\n\nFiyat: 100 TL (Tek Seferlik)\n📩 @turancoinsdestek',
-        buttons: [{type: 'ok'}]
-    });
+    window.open('https://t.me/turancoinsdestek', '_blank');
 });
 
 // Cüzdan seçenekleri

@@ -357,10 +357,13 @@ document.getElementById('kartOption').addEventListener('click', () => {
 });
 
 document.getElementById('ucOption').addEventListener('click', () => {
-    const text = `PUBG Mobile UC almak istiyorum. ID: ${userId}`;
-    window.open(`https://t.me/turancoinsdestek?text=${encodeURIComponent(text)}`, '_blank');
+    const ucPackages = document.getElementById('ucPackages');
+    if (ucPackages.style.display === 'none') {
+        ucPackages.style.display = 'block';
+    } else {
+        ucPackages.style.display = 'none';
+    }
 });
-
 // Başlangıç
 const hour = new Date().getHours();
 let greetingText = 'Günaydın';

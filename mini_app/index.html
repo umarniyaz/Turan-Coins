@@ -129,6 +129,7 @@
         <div class="page" id="page-miner">
             <div class="page-header">
                 <div class="page-header-title">
+                    <button class="back-btn" id="minerBackBtn">←</button>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <path d="M12 2L3 7L12 12L21 7L12 2Z" stroke="#F0B90B" stroke-width="1.5" fill="none"/>
                         <path d="M3 12L12 17L21 12" stroke="#F0B90B" stroke-width="1.5" fill="none"/>
@@ -145,22 +146,22 @@
                     <span class="miner-status-badge" id="minerStatusBadge">Pasif</span>
                 </div>
                 <div class="miner-status-info">
-                    <div class="miner-coin-icon">
+                    <div class="miner-coin-icon" id="minerCoinIcon">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
                             <circle cx="12" cy="12" r="10" fill="#F0B90B"/>
-                            <text x="12" y="16" text-anchor="middle" fill="#0D0D0D" font-weight="800" font-size="11">₺</text>
+                            <text x="12" y="16" text-anchor="middle" fill="#0D0D0D" font-weight="800" font-size="11">C</text>
                         </svg>
                     </div>
-                    <div class="miner-coin-count">
+                    <div>
                         <div class="miner-coin-label">Üretilen Coin</div>
-                        <div class="miner-coin-amount" id="minerCoinAmount">0</div>
+                        <div class="miner-coin-amount" id="minerCoinAmount">0.00000</div>
                     </div>
                 </div>
-                <div class="miner-timer" id="minerTimer">Başlamaya hazır</div>
+                <div class="miner-timer" id="minerTimer">Beklemede...</div>
                 <div class="miner-progress-bar">
                     <div class="miner-progress-fill" id="minerProgressFill" style="width:0%;"></div>
                 </div>
-                <button class="miner-start-btn" id="minerStartBtn">▶ Başlat</button>
+                <button class="miner-start-btn stopped" id="minerStartBtn">▶ Başlat</button>
             </div>
 
             <div class="miner-info-card">

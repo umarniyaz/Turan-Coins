@@ -1290,3 +1290,68 @@ body {
 .miner-select-btn:active {
     transform: scale(0.97);
 }
+/* Miner İkon Animasyonları */
+@keyframes minerRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes minerIdle {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.15); opacity: 0.7; }
+}
+
+.miner-coin-icon svg {
+    animation: minerIdle 3s ease-in-out infinite;
+}
+
+/* Miner Buton Renkleri */
+.miner-start-btn.running {
+    background: linear-gradient(135deg, #FF4444, #CC0000);
+    color: #FFF;
+    box-shadow: 0 4px 20px rgba(255,0,0,0.5);
+    animation: btnPulse 1.5s ease-in-out infinite;
+}
+
+.miner-start-btn.stopped {
+    background: linear-gradient(135deg, #00FF88, #00CC6A);
+    color: #0D0D0D;
+    box-shadow: 0 4px 20px rgba(0,255,136,0.5);
+}
+
+@keyframes btnPulse {
+    0%, 100% { box-shadow: 0 4px 20px rgba(255,0,0,0.5); }
+    50% { box-shadow: 0 4px 30px rgba(255,0,0,0.8); }
+}
+
+/* Geri Butonu */
+.back-btn {
+    background: none;
+    border: none;
+    color: #F0B90B;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0 4px;
+    font-family: 'Inter', sans-serif;
+    line-height: 1;
+}
+
+.back-btn:active {
+    transform: scale(0.9);
+}
+
+/* Paket Açılış Animasyonu */
+#upgradePackages, #ucPackages {
+    animation: packageOpen 0.3s ease;
+}
+
+@keyframes packageOpen {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

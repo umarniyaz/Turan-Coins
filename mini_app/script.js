@@ -456,4 +456,50 @@ usernameEl.textContent = firstName + (lastName ? ' ' + lastName : '');
 
 generateRandomWithdrawals();
 loadUserData();
+// Liderlik
+async function loadLeaderboard() {
+    try {
+        const response = await fetch(API_URL + '/api/leaderboard', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ user_id: userId })
+        });
+        const data = await response.json();
+        
+        if (data.success) {
+            const leaderboardList = document.getElementById('leaderboardList');
+            leaderboardList.innerHTML = '';
+            
+            if (data.top_users.length === 0) {
+                leaderboardList.innerHTML = '<div class="empty-state">Henüz veri yok</div>';
+            } else {
+                data.top_users.forEach((user, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'leaderboard-item' + (index === 0 ? ' top1' : '');
+                    
+                    const initial = (user.first_name || user.username || 'K').charAt(0).toUpperCase();
+                    
+                    item.innerHTML = `
+                        <div class="leaderboard-rank">${index + 1}</div>
+                        <div class="leaderboard-avatar">${initial}</div>
+                        <div class="leaderboard-name">${user.first_name || user.username}</div>
+                        <div class="leaderboard-ads">${user.ads_count} reklam</div>
+                    `;
+                    
+                    leaderboardList.appendChild(item);
+                });
+            }
+            
+            document.getElementById('myRank').textContent = '#' + data.user_rank;
+        }
+    } catch (e) {
+        console.log('Liderlik yüklenemedi');
+    }
+}
+
+// Liderlik sekmesine geçince yükle
+const leaderboardNavItem = document.querySelector('.nav-item[data-page="page-leaderboard"]');
+leaderboardNavItem.addEventListener('click', () => {
+    loadLeaderboard();
+});
 tg.ready();

@@ -161,12 +161,7 @@
             <div class="referral-link-box">
                 <div class="referral-link-label">Referans Linkin</div>
                 <div class="referral-link" id="referralLink">https://t.me/turancoinsbot?start=</div>
-                <button class="copy-btn" id="copyBtn">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                        <path d="M8 8V6C8 4.34 9.34 3 11 3H18C19.66 3 21 4.34 21 6V13C21 14.66 19.66 16 18 16H16V18C16 19.66 14.66 21 13 21H6C4.34 21 3 19.66 3 18V11C3 9.34 4.34 8 6 8H8Z" stroke="#0D0D0D" stroke-width="1.5" fill="none"/>
-                    </svg>
-                    Kopyala
-                </button>
+                <button class="copy-btn" id="copyBtn">Kopyala</button>
             </div>
             <div class="referral-stats">
                 <div class="ref-stat">
@@ -177,6 +172,38 @@
                     <div class="ref-stat-num" id="refEarned">0</div>
                     <div class="ref-stat-label">Kazanılan Coin</div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Liderlik -->
+        <div class="page" id="page-leaderboard">
+            <div class="page-header">
+                <h2>🏆 Liderlik</h2>
+                <p class="page-subtitle">Aylık yarışma</p>
+            </div>
+            <div class="leaderboard-prizes">
+                <div class="prize-card prize-1">
+                    <div class="prize-medal">🥇</div>
+                    <div class="prize-amount">1000 TL</div>
+                    <div class="prize-label">1. Olan</div>
+                </div>
+                <div class="prize-card prize-2">
+                    <div class="prize-medal">🥈</div>
+                    <div class="prize-amount">500 TL</div>
+                    <div class="prize-label">2. Olan</div>
+                </div>
+                <div class="prize-card prize-3">
+                    <div class="prize-medal">🥉</div>
+                    <div class="prize-amount">300 TL</div>
+                    <div class="prize-label">3. Olan</div>
+                </div>
+            </div>
+            <div class="leaderboard-list" id="leaderboardList">
+                <div class="empty-state">Yükleniyor...</div>
+            </div>
+            <div class="my-rank-card" id="myRankCard">
+                <span>Senin sıralaman:</span>
+                <span class="my-rank" id="myRank">#-</span>
             </div>
         </div>
 
@@ -238,7 +265,6 @@
                 </div>
             </div>
 
-            <!-- UC Paketleri (gizli, tıklayınca açılır) -->
             <div id="ucPackages" style="display:none; margin-top:16px;">
                 <div class="section-title" style="color:#F0B90B;font-weight:600;">UC Paketleri</div>
                 <div class="uc-package" data-uc="60" data-coin="1500">
@@ -290,6 +316,13 @@
                     <circle cx="18" cy="18" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
                 </svg>
                 <span class="nav-label">Görevler</span>
+            </div>
+            <div class="nav-item" data-page="page-leaderboard">
+                <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none">
+                    <path d="M8 21H16M12 17V21M7 4H17V14C17 15.66 15.66 17 14 17H10C8.34 17 7 15.66 7 14V4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M7 7H17M7 11H17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <span class="nav-label">Liderlik</span>
             </div>
             <div class="nav-item" data-page="page-referral">
                 <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none">

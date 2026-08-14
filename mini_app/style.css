@@ -828,11 +828,45 @@ body {
     background: #2A2A2A;
     color: #555;
 }
-/* Liderlik */
+/* Liderlik - Modern */
+.month-progress-card {
+    background: #1A1A1A;
+    border: 1px solid #2A2A2A;
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.month-progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #999;
+}
+
+.month-progress-bar {
+    width: 100%;
+    height: 6px;
+    background: #2A2A2A;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.month-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #F0B90B, #F8D33A);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
 .leaderboard-prizes {
     display: flex;
     gap: 8px;
     margin-bottom: 16px;
+    width: 100%;
 }
 
 .prize-card {
@@ -840,38 +874,25 @@ body {
     background: #1A1A1A;
     border: 1px solid #2A2A2A;
     border-radius: 14px;
-    padding: 14px 8px;
+    padding: 12px 8px;
     text-align: center;
+    min-width: 0;
 }
 
-.prize-1 {
-    border-color: #F0B90B;
-    background: linear-gradient(135deg, #1A1A0A, #1A1A1A);
-}
-
-.prize-2 {
-    border-color: #A8A8A8;
-}
-
-.prize-3 {
-    border-color: #CD7F32;
-}
+.prize-1 { border-color: #F0B90B33; }
+.prize-2 { border-color: #A8A8A833; }
+.prize-3 { border-color: #CD7F3233; }
 
 .prize-medal {
-    font-size: 24px;
+    display: flex;
+    justify-content: center;
     margin-bottom: 6px;
 }
 
 .prize-amount {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 800;
     color: #F0B90B;
-}
-
-.prize-label {
-    font-size: 10px;
-    color: #666;
-    margin-top: 2px;
 }
 
 .leaderboard-list {
@@ -879,42 +900,44 @@ body {
     flex-direction: column;
     gap: 8px;
     margin-bottom: 16px;
+    width: 100%;
 }
 
 .leaderboard-item {
     background: #1A1A1A;
     border: 1px solid #2A2A2A;
     border-radius: 12px;
-    padding: 12px 16px;
+    padding: 12px 14px;
     display: flex;
     align-items: center;
     gap: 10px;
+    width: 100%;
 }
 
 .leaderboard-item.top1 {
-    border-color: #F0B90B;
+    border-color: #F0B90B33;
     background: linear-gradient(135deg, #1A1A0A, #1A1A1A);
 }
 
 .leaderboard-rank {
-    width: 24px;
+    width: 22px;
     font-weight: 800;
-    font-size: 14px;
+    font-size: 13px;
     color: #F0B90B;
     text-align: center;
     flex-shrink: 0;
 }
 
 .leaderboard-avatar {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.08);
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 13px;
+    font-size: 12px;
     flex-shrink: 0;
 }
 
@@ -928,7 +951,7 @@ body {
 }
 
 .leaderboard-ads {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
     color: #00FF88;
     white-space: nowrap;
@@ -938,16 +961,17 @@ body {
     background: #1A1A1A;
     border: 1px solid #F0B90B33;
     border-radius: 12px;
-    padding: 14px 16px;
+    padding: 12px 14px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 13px;
     color: #999;
+    width: 100%;
 }
 
 .my-rank {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 800;
     color: #F0B90B;
 }

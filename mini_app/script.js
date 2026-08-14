@@ -290,7 +290,6 @@ watchAdBtn.addEventListener('click', async () => {
     }
 });
 
-// Alt navigasyon
 const navItems = document.querySelectorAll('.nav-item');
 const pages = {
     'page-home': document.getElementById('page-home'),
@@ -320,7 +319,6 @@ navItems.forEach(item => {
     });
 });
 
-// Referans linki
 referralLink.textContent = `https://t.me/turancoinsbot?start=${userId}`;
 
 document.getElementById('copyBtn').addEventListener('click', () => {
@@ -397,7 +395,6 @@ document.querySelectorAll('.uc-select-btn').forEach(btn => {
     });
 });
 
-// Görevler
 const taskLinks = {
     'telegram': 'https://t.me/turancoinkanal',
     'instagram': 'https://instagram.com/turancoin'
@@ -446,7 +443,6 @@ document.querySelectorAll('.task-btn').forEach(btn => {
     });
 });
 
-// Liderlik - sahte veri
 const fakeNames = ['Mehmet', 'Aziz', 'Gülnara', 'Timur', 'Ayşe', 'Rustam', 'Dilnoza', 'Batu', 'Zeynep', 'Marat'];
 const fakeAds = [850, 720, 650, 580, 490, 420, 380, 310, 250, 180];
 
@@ -469,21 +465,27 @@ function loadLeaderboard() {
     document.getElementById('myRank').textContent = '#' + (Math.floor(Math.random() * 20) + 11);
 }
 
-// Geri sayım
 function updateCountdown() {
     const now = new Date();
     const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const totalDays = Math.ceil((endOfMonth - startOfMonth) / (1000 * 60 * 60 * 24));
+    const passedDays = Math.floor((now - startOfMonth) / (1000 * 60 * 60 * 24));
+    const percent = (passedDays / totalDays) * 100;
+    
+    document.getElementById('monthProgressFill').style.width = percent + '%';
+    
     const diff = endOfMonth - now;
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    document.getElementById('countdownTimer').textContent = `${days}g ${String(hours).padStart(2,'0')}s ${String(minutes).padStart(2,'0')}d ${String(seconds).padStart(2,'0')}sn`;
+    
+    document.getElementById('countdownTimer').textContent = `${days}g ${hours}s ${minutes}d ${seconds}sn`;
 }
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-// Başlangıç
 const hour = new Date().getHours();
 let greetingText = 'Günaydın';
 if (hour >= 12 && hour < 18) greetingText = 'İyi günler';

@@ -9,14 +9,19 @@
 </head>
 <body>
     <div class="app-container">
-        <!-- Ana Sayfa Sekmesi -->
+        <!-- Ana Sayfa -->
         <div class="page active" id="page-home">
             <div class="header">
                 <div class="header-left">
                     <div class="greeting" id="greeting">Günaydın</div>
                     <div class="user-row">
                         <span class="username" id="username">Kullanıcı</span>
-                        <span class="verified">✔</span>
+                        <span class="verified">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2L14.5 7.5L20.5 8L16 12.5L17.5 18.5L12 15.5L6.5 18.5L8 12.5L3.5 8L9.5 7.5L12 2Z" fill="#F0B90B"/>
+                                <path d="M10 12.5L11.5 14L14.5 10.5" stroke="#0D0D0D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>
                     </div>
                 </div>
                 <div class="header-right">
@@ -65,19 +70,26 @@
             </div>
 
             <button class="main-button" id="watchAdBtn">
-                <span class="btn-icon">▶</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M8 5L19 12L8 19V5Z" fill="#0D0D0D"/>
+                </svg>
                 <span>Reklam İzle</span>
             </button>
 
             <div class="boost-section">
                 <div class="boost-card" id="refBtn">
-                    <div class="boost-icon">👥</div>
+                    <svg class="boost-icon-svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M16 11C17.66 11 19 9.66 19 8C19 6.34 17.66 5 16 5C14.34 5 13 6.34 13 8C13 8.24 13.03 8.47 13.09 8.69L8.59 11.06C8.19 10.69 7.64 10.5 7 10.5C5.34 10.5 4 11.84 4 13.5C4 15.16 5.34 16.5 7 16.5C7.64 16.5 8.19 16.31 8.59 15.94L13.09 18.31C13.03 18.53 13 18.76 13 19C13 20.66 14.34 22 16 22C17.66 22 19 20.66 19 19C19 17.34 17.66 16 16 16C15.36 16 14.81 16.19 14.41 16.56L9.91 14.19C9.97 13.97 10 13.74 10 13.5C10 13.26 9.97 13.03 9.91 12.81L14.41 10.44C14.81 10.81 15.36 11 16 11Z" fill="#F0B90B"/>
+                    </svg>
                     <div class="boost-title">Arkadaş Davet Et</div>
                     <div class="boost-reward">+50 Coin</div>
                     <div class="boost-detail">Davet başına</div>
                 </div>
                 <div class="boost-card" id="premiumBtn">
-                    <div class="boost-icon">👑</div>
+                    <svg class="boost-icon-svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 16L3 5L8.5 8.5L12 3L15.5 8.5L21 5L19 16H5Z" fill="#F0B90B"/>
+                        <path d="M19 18C19 19.66 17.66 21 16 21H8C6.34 21 5 19.66 5 18" stroke="#F0B90B" stroke-width="1.5" fill="none"/>
+                    </svg>
                     <div class="boost-title">Premium</div>
                     <div class="boost-reward">2 Kat Kazanç</div>
                     <div class="boost-detail">100 TL / Tek Seferlik</div>
@@ -87,7 +99,7 @@
             <div class="premium-card" id="premiumCard">
                 <div class="premium-header">👑 Premium Aktif</div>
                 <div class="premium-features">
-                    2 Kat Kazanç &nbsp;|&nbsp; Sınırsız Reklam &nbsp;|&nbsp; İstanbulkart
+                    2 Kat Kazanç | Sınırsız Reklam | İstanbulkart
                 </div>
             </div>
 
@@ -97,10 +109,10 @@
             </div>
         </div>
 
-        <!-- Görevler Sekmesi -->
+        <!-- Görevler -->
         <div class="page" id="page-tasks">
             <div class="page-header">
-                <h2>📋 Görevler</h2>
+                <h2>Görevler</h2>
                 <p class="page-subtitle">Ekstra coin kazan</p>
             </div>
             <div id="tasksList" class="tasks-list">
@@ -108,10 +120,10 @@
             </div>
         </div>
 
-        <!-- Davet Sekmesi -->
+        <!-- Davet -->
         <div class="page" id="page-referral">
             <div class="page-header">
-                <h2>👥 Davet Et</h2>
+                <h2>Davet Et</h2>
                 <p class="page-subtitle">Arkadaşını getir, kazan</p>
             </div>
             <div class="referral-card">
@@ -121,7 +133,12 @@
             <div class="referral-link-box">
                 <div class="referral-link-label">Referans Linkin</div>
                 <div class="referral-link" id="referralLink">https://t.me/turancoinsbot?start=</div>
-                <button class="copy-btn" id="copyBtn">📋 Kopyala</button>
+                <button class="copy-btn" id="copyBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M8 8V6C8 4.34 9.34 3 11 3H18C19.66 3 21 4.34 21 6V13C21 14.66 19.66 16 18 16H16V18C16 19.66 14.66 21 13 21H6C4.34 21 3 19.66 3 18V11C3 9.34 4.34 8 6 8H8Z" stroke="#0D0D0D" stroke-width="1.5" fill="none"/>
+                    </svg>
+                    Kopyala
+                </button>
             </div>
             <div class="referral-stats">
                 <div class="ref-stat">
@@ -135,10 +152,10 @@
             </div>
         </div>
 
-        <!-- Cüzdan Sekmesi -->
+        <!-- Cüzdan -->
         <div class="page" id="page-wallet">
             <div class="page-header">
-                <h2>💳 Cüzdan</h2>
+                <h2>Cüzdan</h2>
                 <p class="page-subtitle">Bakiyeni yönet</p>
             </div>
             <div class="wallet-balance">
@@ -154,21 +171,38 @@
 
             <div class="wallet-options">
                 <div class="wallet-option" id="withdrawOption">
-                    <div class="wallet-option-icon">💸</div>
+                    <div class="wallet-option-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 3V15M12 15L8 11M12 15L16 11" stroke="#F0B90B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4 17V19C4 20.66 5.34 22 7 22H17C18.66 22 20 20.66 20 19V17" stroke="#F0B90B" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
                     <div class="wallet-option-info">
                         <div class="wallet-option-title">TL Çekim</div>
                         <div class="wallet-option-desc">IBAN'a para çek</div>
                     </div>
                 </div>
                 <div class="wallet-option" id="kartOption">
-                    <div class="wallet-option-icon">🚌</div>
+                    <div class="wallet-option-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                            <path d="M4 10H20V18C20 19.66 18.66 21 17 21H7C5.34 21 4 19.66 4 18V10Z" stroke="#F0B90B" stroke-width="1.5" fill="none"/>
+                            <path d="M4 10V6C4 4.34 5.34 3 7 3H17C18.66 3 20 4.34 20 6V10H4Z" stroke="#F0B90B" stroke-width="1.5" fill="none"/>
+                            <path d="M7 15H13" stroke="#F0B90B" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
                     <div class="wallet-option-info">
                         <div class="wallet-option-title">İstanbulkart</div>
                         <div class="wallet-option-desc">50 TL yükle</div>
                     </div>
                 </div>
                 <div class="wallet-option" id="ucOption">
-                    <div class="wallet-option-icon">🎮</div>
+                    <div class="wallet-option-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                            <path d="M6 11H18C19.66 11 21 12.34 21 14V17C21 18.66 19.66 20 18 20H6C4.34 20 3 18.66 3 17V14C3 12.34 4.34 11 6 11Z" stroke="#F0B90B" stroke-width="1.5" fill="none"/>
+                            <path d="M7 15H9M15 15H17" stroke="#F0B90B" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M9 8L10 5H14L15 8" stroke="#F0B90B" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
                     <div class="wallet-option-info">
                         <div class="wallet-option-title">PUBG Mobile UC</div>
                         <div class="wallet-option-desc">Coin ile UC al</div>
@@ -180,27 +214,36 @@
         <!-- Alt Navigasyon -->
         <div class="bottom-nav">
             <div class="nav-item active" data-page="page-home">
-                <span class="nav-icon">🏠</span>
+                <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none">
+                    <path d="M3 11L12 3L21 11V20C21 20.55 20.55 21 20 21H15V15H9V21H4C3.45 21 3 20.55 3 20V11Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                </svg>
                 <span class="nav-label">Ana Sayfa</span>
             </div>
             <div class="nav-item" data-page="page-tasks">
-                <span class="nav-icon">📋</span>
+                <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none">
+                    <path d="M4 6H20M4 12H20M4 18H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <circle cx="18" cy="18" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                </svg>
                 <span class="nav-label">Görevler</span>
             </div>
             <div class="nav-item" data-page="page-referral">
-                <span class="nav-icon">👥</span>
+                <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="8" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                    <path d="M5 20C5 16.14 8.14 13 12 13C15.86 13 19 16.14 19 20" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                </svg>
                 <span class="nav-label">Davet</span>
             </div>
             <div class="nav-item" data-page="page-wallet">
-                <span class="nav-icon">💳</span>
+                <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none">
+                    <path d="M4 7C4 5.34 5.34 4 7 4H17C18.66 4 20 5.34 20 7V17C20 18.66 18.66 20 17 20H7C5.34 20 4 18.66 4 17V7Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                    <path d="M4 9H20" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M8 15H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
                 <span class="nav-label">Cüzdan</span>
             </div>
         </div>
 
-        <!-- Coin Rain -->
         <div class="coin-rain" id="coinRain"></div>
-
-        <!-- Toast -->
         <div class="toast" id="toast">+1 Coin Eklendi!</div>
     </div>
 

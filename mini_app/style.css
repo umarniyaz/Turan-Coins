@@ -650,3 +650,113 @@ body {
 
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 .toast.hide { opacity: 0; transform: translateX(-50%) translateY(-100px); }
+/* SVG İkonlar */
+.nav-icon {
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.nav-item.active .nav-icon {
+    color: #F0B90B;
+    filter: drop-shadow(0 0 8px rgba(240, 185, 11, 0.6));
+}
+
+/* Nav animasyonu */
+.nav-item {
+    position: relative;
+}
+
+.nav-item::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    background: #F0B90B;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.nav-item.active::after {
+    width: 24px;
+}
+
+.nav-item:active {
+    transform: scale(0.9);
+}
+
+/* Sayfa geçiş animasyonu */
+.page.active {
+    animation: pageIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes pageIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Boost kartı ikonları */
+.boost-icon-svg {
+    margin-bottom: 8px;
+}
+
+/* Toast animasyonu iyileştirme */
+.toast {
+    animation: toastPop 0.3s ease;
+}
+
+@keyframes toastPop {
+    from { transform: translateX(-50%) translateY(-20px) scale(0.8); }
+    to { transform: translateX(-50%) translateY(0) scale(1); }
+}
+
+/* Buton hover/active animasyonları */
+.wallet-option {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.wallet-option:active {
+    transform: scale(0.97);
+    background: #222;
+}
+
+.boost-card {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.boost-card:active {
+    transform: scale(0.95);
+}
+
+.copy-btn {
+    transition: all 0.2s ease;
+}
+
+.copy-btn:active {
+    transform: scale(0.97);
+    opacity: 0.8;
+}
+
+/* Lig kartı parlama animasyonu */
+.lig-medal {
+    animation: ligGlow 2s ease-in-out infinite;
+}
+
+@keyframes ligGlow {
+    0%, 100% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+    50% {
+        transform: scale(1.1);
+        filter: brightness(1.4);
+    }
+}

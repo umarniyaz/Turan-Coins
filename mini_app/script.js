@@ -31,6 +31,7 @@ const ligMedal = document.getElementById('ligMedal');
 const ligDetail = document.getElementById('ligDetail');
 const ligProgressFill = document.getElementById('ligProgressFill');
 const referralLink = document.getElementById('referralLink');
+const bottomNav = document.querySelector('.bottom-nav');
 
 let coinBalance = 0;
 let adsWatched = 0;
@@ -300,22 +301,30 @@ const pages = {
     'page-miner': document.getElementById('page-miner')
 };
 
+function showPage(pageId) {
+    bottomNav.style.display = 'flex';
+    navItems.forEach(nav => nav.classList.remove('active'));
+    const navItem = document.querySelector(`.nav-item[data-page="${pageId}"]`);
+    if (navItem) navItem.classList.add('active');
+    Object.keys(pages).forEach(key => pages[key].classList.remove('active'));
+    pages[pageId].classList.add('active');
+    
+    if (pageId === 'page-leaderboard') {
+        loadLeaderboard();
+    }
+}
+
+function showMinerPage() {
+    bottomNav.style.display = 'none';
+    navItems.forEach(nav => nav.classList.remove('active'));
+    Object.keys(pages).forEach(key => pages[key].classList.remove('active'));
+    pages['page-miner'].classList.add('active');
+    loadMinerStatus();
+}
+
 navItems.forEach(item => {
     item.addEventListener('click', () => {
-        const pageId = item.dataset.page;
-        
-        navItems.forEach(nav => nav.classList.remove('active'));
-        item.classList.add('active');
-        
-        Object.keys(pages).forEach(key => {
-            pages[key].classList.remove('active');
-        });
-        pages[pageId].classList.add('active');
-        
-        if (pageId === 'page-leaderboard') {
-            loadLeaderboard();
-        }
-        
+        showPage(item.dataset.page);
         tg.HapticFeedback.impactOccurred('light');
     });
 });
@@ -328,10 +337,7 @@ document.getElementById('copyBtn').addEventListener('click', () => {
 });
 
 document.getElementById('refBtn').addEventListener('click', () => {
-    navItems.forEach(nav => nav.classList.remove('active'));
-    navItems[3].classList.add('active');
-    Object.keys(pages).forEach(key => pages[key].classList.remove('active'));
-    pages['page-referral'].classList.add('active');
+    showPage('page-referral');
 });
 
 document.getElementById('premiumBtn').addEventListener('click', () => {
@@ -494,7 +500,6 @@ let minerPlan = 'temel';
 let minerStartTime = null;
 let minerEndTime = null;
 let minerTotalCoins = 0;
-let minerSessionEarned = 0;
 let minerTimerInterval = null;
 
 const minerPlans = {
@@ -542,7 +547,8 @@ function updateMinerUI() {
         const s = Math.floor(remaining % 60);
         timerEl.textContent = `Kalan: ${String(h).padStart(2,'0')}s ${String(m).padStart(2,'0')}d ${String(s).padStart(2,'0')}sn`;
         
-        const totalDisplay = minerTotalCoins + minerSessionEarned;
+        const sessionEarned = passed * minerCoinRate * plan.rate;
+        const totalDisplay = minerTotalCoins + sessionEarned;
         coinAmountEl.textContent = totalDisplay.toFixed(5);
         
         if (remaining <= 0) {
@@ -578,13 +584,11 @@ async function loadMinerStatus() {
                 minerActive = true;
                 minerStartTime = data.start_time;
                 minerEndTime = data.end_time;
-                minerSessionEarned = data.earned || 0;
                 
                 if (minerTimerInterval) clearInterval(minerTimerInterval);
                 minerTimerInterval = setInterval(updateMinerUI, 1000);
             } else {
                 minerActive = false;
-                minerSessionEarned = 0;
             }
             
             updateMinerUI();
@@ -607,7 +611,6 @@ async function startMinerAPI() {
             minerActive = true;
             minerStartTime = Date.now() / 1000;
             minerEndTime = data.end_time;
-            minerSessionEarned = 0;
             
             if (minerTimerInterval) clearInterval(minerTimerInterval);
             minerTimerInterval = setInterval(updateMinerUI, 1000);
@@ -632,7 +635,6 @@ async function stopMinerFromAPI() {
         
         if (data.success) {
             minerTotalCoins = data.total_coins || minerTotalCoins;
-            minerSessionEarned = 0;
             loadUserData();
         }
     } catch (e) {
@@ -649,18 +651,11 @@ async function stopMinerFromAPI() {
 }
 
 document.getElementById('minerBtn').addEventListener('click', () => {
-    navItems.forEach(nav => nav.classList.remove('active'));
-    Object.keys(pages).forEach(key => pages[key].classList.remove('active'));
-    pages['page-miner'].classList.add('active');
-    loadMinerStatus();
+    showMinerPage();
 });
 
 document.getElementById('minerHomeBtn').addEventListener('click', () => {
-    navItems.forEach(nav => nav.classList.remove('active'));
-    navItems[0].classList.add('active');
-    Object.keys(pages).forEach(key => pages[key].classList.remove('active'));
-    pages['page-home'].classList.add('active');
-    loadMinerStatus();
+    showPage('page-home');
 });
 
 document.getElementById('minerStartBtn').addEventListener('click', () => {

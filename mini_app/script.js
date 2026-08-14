@@ -337,12 +337,13 @@ document.getElementById('premiumBtn').addEventListener('click', () => {
     window.open(`https://t.me/turancoinsdestek?text=${encodeURIComponent(text)}`, '_blank');
 });
 
-// Cüzdan seçenekleri
+// Cüzdan - TL Çekim
 document.getElementById('withdrawOption').addEventListener('click', () => {
     const text = `Para çekmek istiyorum. ID: ${userId}`;
     window.open(`https://t.me/turancoinsdestek?text=${encodeURIComponent(text)}`, '_blank');
 });
 
+// Cüzdan - İstanbulkart
 document.getElementById('kartOption').addEventListener('click', () => {
     if (!isPremium) {
         tg.showPopup({
@@ -356,6 +357,7 @@ document.getElementById('kartOption').addEventListener('click', () => {
     window.open(`https://t.me/turancoinsdestek?text=${encodeURIComponent(text)}`, '_blank');
 });
 
+// Cüzdan - UC Paketleri
 document.getElementById('ucOption').addEventListener('click', () => {
     const ucPackages = document.getElementById('ucPackages');
     if (ucPackages.style.display === 'none') {
@@ -364,27 +366,8 @@ document.getElementById('ucOption').addEventListener('click', () => {
         ucPackages.style.display = 'none';
     }
 });
-// Başlangıç
-const hour = new Date().getHours();
-let greetingText = 'Günaydın';
-if (hour >= 12 && hour < 18) greetingText = 'İyi günler';
-if (hour >= 18) greetingText = 'İyi akşamlar';
-greetingEl.textContent = greetingText;
-usernameEl.textContent = firstName + (lastName ? ' ' + lastName : '');
 
-generateRandomWithdrawals();
-loadUserData();
-// UC Paketleri
-document.getElementById('ucOption').addEventListener('click', () => {
-    const ucPackages = document.getElementById('ucPackages');
-    if (ucPackages.style.display === 'none') {
-        ucPackages.style.display = 'block';
-        ucPackages.scrollIntoView({ behavior: 'smooth' });
-    } else {
-        ucPackages.style.display = 'none';
-    }
-});
-
+// UC Paket seçimi
 document.querySelectorAll('.uc-select-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         const ucAmount = btn.dataset.uc;
@@ -398,12 +381,6 @@ document.querySelectorAll('.uc-select-btn').forEach(btn => {
             });
             return;
         }
-        
-        tg.showPopup({
-            title: `${ucAmount} UC Seçildi`,
-            message: `PUBG ID'nizi @turancoinsdestek'e gönderin.\n\nMaliyet: ${coinCost} coin`,
-            buttons: [{type: 'ok'}]
-        });
         
         const text = `PUBG Mobile UC almak istiyorum. ID: ${userId}. Paket: ${ucAmount} UC. Maliyet: ${coinCost} coin`;
         window.open(`https://t.me/turancoinsdestek?text=${encodeURIComponent(text)}`, '_blank');
@@ -422,10 +399,8 @@ document.querySelectorAll('.task-btn').forEach(btn => {
         const taskCard = btn.closest('.task-card');
         const link = taskLinks[taskId];
         
-        // Linki aç
         window.open(link, '_blank');
         
-        // 10 saniye sonra coin ekle
         btn.textContent = 'Bekle...';
         btn.disabled = true;
         
@@ -460,4 +435,15 @@ document.querySelectorAll('.task-btn').forEach(btn => {
         }, 10000);
     });
 });
+
+// Başlangıç
+const hour = new Date().getHours();
+let greetingText = 'Günaydın';
+if (hour >= 12 && hour < 18) greetingText = 'İyi günler';
+if (hour >= 18) greetingText = 'İyi akşamlar';
+greetingEl.textContent = greetingText;
+usernameEl.textContent = firstName + (lastName ? ' ' + lastName : '');
+
+generateRandomWithdrawals();
+loadUserData();
 tg.ready();

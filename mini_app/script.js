@@ -339,10 +339,20 @@ document.getElementById('premiumBtn').addEventListener('click', () => {
 
 // Cüzdan - TL Çekim
 document.getElementById('withdrawOption').addEventListener('click', () => {
-    const text = `Para çekmek istiyorum. ID: ${userId}`;
+    const tlValue = coinBalance * currentLigRate;
+    
+    if (tlValue < 50) {
+        tg.showPopup({
+            title: 'Yetersiz Bakiye',
+            message: `Minimum çekim tutarı 50 TL.\nMevcut bakiyen: ${tlValue.toFixed(2)} TL\n\nDaha fazla reklam izleyin!`,
+            buttons: [{type: 'ok'}]
+        });
+        return;
+    }
+    
+    const text = `Para çekmek istiyorum. ID: ${userId}. Bakiye: ${tlValue.toFixed(2)} TL`;
     window.open(`https://t.me/turancoinsdestek?text=${encodeURIComponent(text)}`, '_blank');
 });
-
 // Cüzdan - İstanbulkart
 document.getElementById('kartOption').addEventListener('click', () => {
     if (!isPremium) {

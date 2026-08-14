@@ -970,3 +970,40 @@ body {
 
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 .toast.hide { opacity: 0; transform: translateX(-50%) translateY(-100px); }
+/* Madenci İşçi İkonu Animasyonu */
+.miner-worker-icon svg {
+    animation: helmetBob 2s ease-in-out infinite;
+}
+
+@keyframes helmetBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
+}
+
+/* Sayaç İkon Hizalama Düzeltme */
+.miner-status-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.miner-coin-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.miner-coin-label {
+    font-size: 11px;
+    color: #666;
+    margin-bottom: 2px;
+}
+
+.miner-coin-amount {
+    font-size: 28px;
+    font-weight: 800;
+    color: #F0B90B;
+    line-height: 1;
+}

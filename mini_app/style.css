@@ -1010,3 +1010,27 @@ body {
 .miner-coin-icon {
     margin-top: 20px;
 }
+.miner-status-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.miner-coin-label {
+    font-size: 11px;
+    color: #666;
+}
+
+.miner-status-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.miner-coin-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}

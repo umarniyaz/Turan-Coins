@@ -493,7 +493,7 @@ let minerActive = false;
 let minerPlan = 'temel';
 let minerStartTime = null;
 let minerEndTime = null;
-let minerCoins = 0;
+let minerTotalCoins = 0;
 let minerTimerInterval = null;
 
 const minerPlans = {
@@ -502,7 +502,7 @@ const minerPlans = {
     'apex': { name: 'Apex', rate: 10, duration: 30 * 24 * 60 * 60, durationText: '30 gün' }
 };
 
-const minerCoinRate = 8 / (3 * 60 * 60); // Temel: saatte 8/3 coin
+const minerCoinRate = 8 / (3 * 60 * 60);
 
 function updateMinerUI() {
     const statusBadge = document.getElementById('minerStatusBadge');
@@ -523,7 +523,7 @@ function updateMinerUI() {
     if (minerActive) {
         statusBadge.textContent = 'Aktif';
         statusBadge.classList.add('active');
-        startBtn.textContent = '■ Durdur';
+        startBtn.textContent = '⚒️ Kazıyor...';
         startBtn.classList.remove('stopped');
         startBtn.classList.add('running');
         btnDesc.textContent = 'Madencilik sürüyor...';
@@ -541,14 +541,14 @@ function updateMinerUI() {
         const s = Math.floor(remaining % 60);
         timerEl.textContent = `Kalan: ${String(h).padStart(2,'0')}s ${String(m).padStart(2,'0')}d ${String(s).padStart(2,'0')}sn`;
         
-        const producedCoins = passed * minerCoinRate * plan.rate;
-        minerCoins = producedCoins;
-        coinAmountEl.textContent = producedCoins.toFixed(5);
-        
-        document.getElementById('minerCoinIcon').style.animation = 'minerRotate 1s linear infinite';
+        const sessionCoins = passed * minerCoinRate * plan.rate;
+        const totalDisplay = minerTotalCoins + sessionCoins;
+        coinAmountEl.textContent = totalDisplay.toFixed(5);
         
         if (remaining <= 0) {
+            minerTotalCoins += total * minerCoinRate * plan.rate;
             stopMiner();
+            showToast('⏹️ Madencilik tamamlandı!');
         }
     } else {
         statusBadge.textContent = 'Pasif';
@@ -559,9 +559,7 @@ function updateMinerUI() {
         btnDesc.textContent = 'Başlatmak için tıkla';
         timerEl.textContent = 'Beklemede...';
         progressFill.style.width = '0%';
-        coinAmountEl.textContent = '0.00000';
-        
-        document.getElementById('minerCoinIcon').style.animation = 'minerIdle 3s ease-in-out infinite';
+        coinAmountEl.textContent = minerTotalCoins.toFixed(5);
     }
 }
 
@@ -569,7 +567,6 @@ function startMiner() {
     minerActive = true;
     minerStartTime = Date.now() / 1000;
     minerEndTime = minerStartTime + minerPlans[minerPlan].duration;
-    minerCoins = 0;
     
     if (minerTimerInterval) clearInterval(minerTimerInterval);
     minerTimerInterval = setInterval(updateMinerUI, 100);
@@ -580,6 +577,29 @@ function startMiner() {
 }
 
 function stopMiner() {
+    if (minerActive) {
+        const now = Date.now() / 1000;
+        const passed = now - minerStartTime;
+        const earnedCoins = passed * minerCoinRate * minerPlans[minerPlan].rate;
+        minerTotalCoins += earnedCoins;
+        
+        if (earnedCoins > 0.01) {
+            const coinsToAdd = Math.floor(earnedCoins);
+            if (coinsToAdd > 0) {
+                fetch(API_URL + '/api/add_coins', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ user_id: userId, coins: coinsToAdd })
+                }).then(res => res.json()).then(data => {
+                    if (data.success) {
+                        coinBalance = data.new_balance;
+                        updateBalance(false);
+                    }
+                }).catch(e => console.log('Coin ekleme hatası'));
+            }
+        }
+    }
+    
     minerActive = false;
     if (minerTimerInterval) {
         clearInterval(minerTimerInterval);
@@ -596,7 +616,7 @@ document.getElementById('minerBtn').addEventListener('click', () => {
     updateMinerUI();
 });
 
-document.getElementById('minerBackBtn').addEventListener('click', () => {
+document.getElementById('minerHomeBtn').addEventListener('click', () => {
     navItems.forEach(nav => nav.classList.remove('active'));
     navItems[0].classList.add('active');
     Object.keys(pages).forEach(key => pages[key].classList.remove('active'));
@@ -605,7 +625,7 @@ document.getElementById('minerBackBtn').addEventListener('click', () => {
 
 document.getElementById('minerStartBtn').addEventListener('click', () => {
     if (minerActive) {
-        stopMiner();
+        return; // Kazıyor butonu pasif
     } else {
         startMiner();
     }

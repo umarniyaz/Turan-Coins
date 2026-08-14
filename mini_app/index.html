@@ -116,7 +116,35 @@
                 <p class="page-subtitle">Ekstra coin kazan</p>
             </div>
             <div id="tasksList" class="tasks-list">
-                <div class="empty-state">Yakında görevler eklenecek</div>
+                <div class="task-card" id="task-telegram">
+                    <div class="task-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                            <path d="M21 4L3 11L10 14L13 21L21 4Z" stroke="#F0B90B" stroke-width="1.5" fill="none"/>
+                            <path d="M10 14L21 4" stroke="#F0B90B" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                    <div class="task-info">
+                        <div class="task-title">Telegram Kanalına Katıl</div>
+                        <div class="task-desc">Kanalımıza katıl, bizi destekle</div>
+                    </div>
+                    <div class="task-reward">+20 Coin</div>
+                    <button class="task-btn" data-task="telegram">Git</button>
+                </div>
+                <div class="task-card" id="task-instagram">
+                    <div class="task-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                            <rect x="3" y="3" width="18" height="18" rx="4" stroke="#F0B90B" stroke-width="1.5" fill="none"/>
+                            <circle cx="12" cy="12" r="4" stroke="#F0B90B" stroke-width="1.5" fill="none"/>
+                            <circle cx="17" cy="7" r="1" fill="#F0B90B"/>
+                        </svg>
+                    </div>
+                    <div class="task-info">
+                        <div class="task-title">Instagram Takip Et</div>
+                        <div class="task-desc">Instagram hesabımızı takip et</div>
+                    </div>
+                    <div class="task-reward">+15 Coin</div>
+                    <button class="task-btn" data-task="instagram">Git</button>
+                </div>
             </div>
         </div>
 
@@ -207,6 +235,43 @@
                         <div class="wallet-option-title">PUBG Mobile UC</div>
                         <div class="wallet-option-desc">Coin ile UC al</div>
                     </div>
+                </div>
+            </div>
+
+            <!-- UC Paketleri (gizli, tıklayınca açılır) -->
+            <div id="ucPackages" style="display:none; margin-top:16px;">
+                <div class="section-title" style="color:#F0B90B;font-weight:600;">UC Paketleri</div>
+                <div class="uc-package" data-uc="60" data-coin="1500">
+                    <div class="uc-package-info">
+                        <div class="uc-package-title">60 UC</div>
+                        <div class="uc-package-desc">≈ 45 TL değerinde</div>
+                    </div>
+                    <div class="uc-package-cost">1500 Coin</div>
+                    <button class="uc-select-btn" data-uc="60">Seç</button>
+                </div>
+                <div class="uc-package" data-uc="120" data-coin="3000">
+                    <div class="uc-package-info">
+                        <div class="uc-package-title">120 UC</div>
+                        <div class="uc-package-desc">≈ 90 TL değerinde</div>
+                    </div>
+                    <div class="uc-package-cost">3000 Coin</div>
+                    <button class="uc-select-btn" data-uc="120">Seç</button>
+                </div>
+                <div class="uc-package" data-uc="300" data-coin="7333">
+                    <div class="uc-package-info">
+                        <div class="uc-package-title">300 UC</div>
+                        <div class="uc-package-desc">≈ 220 TL değerinde</div>
+                    </div>
+                    <div class="uc-package-cost">7333 Coin</div>
+                    <button class="uc-select-btn" data-uc="300">Seç</button>
+                </div>
+                <div class="uc-package" data-uc="600" data-coin="14666">
+                    <div class="uc-package-info">
+                        <div class="uc-package-title">600 UC</div>
+                        <div class="uc-package-desc">≈ 440 TL değerinde</div>
+                    </div>
+                    <div class="uc-package-cost">14666 Coin</div>
+                    <button class="uc-select-btn" data-uc="600">Seç</button>
                 </div>
             </div>
         </div>

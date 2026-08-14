@@ -760,3 +760,71 @@ body {
         filter: brightness(1.4);
     }
 }
+/* UC Paketleri */
+.uc-package {
+    background: #1A1A1A;
+    border: 1px solid #2A2A2A;
+    border-radius: 14px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.uc-package:active {
+    background: #222;
+    transform: scale(0.97);
+}
+
+.uc-package-info {
+    flex: 1;
+}
+
+.uc-package-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #F0B90B;
+}
+
+.uc-package-desc {
+    font-size: 12px;
+    color: #666;
+    margin-top: 2px;
+}
+
+.uc-package-cost {
+    font-size: 14px;
+    font-weight: 600;
+    color: #FFF;
+    white-space: nowrap;
+}
+
+.uc-select-btn {
+    background: linear-gradient(135deg, #F0B90B, #F8D33A);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    color: #0D0D0D;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+}
+
+.uc-select-btn:active {
+    transform: scale(0.95);
+}
+
+/* Görev tamamlandı */
+.task-card.completed {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.task-card.completed .task-btn {
+    background: #2A2A2A;
+    color: #555;
+}

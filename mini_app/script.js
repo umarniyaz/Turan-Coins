@@ -371,4 +371,90 @@ usernameEl.textContent = firstName + (lastName ? ' ' + lastName : '');
 
 generateRandomWithdrawals();
 loadUserData();
+// UC Paketleri
+document.getElementById('ucOption').addEventListener('click', () => {
+    const ucPackages = document.getElementById('ucPackages');
+    if (ucPackages.style.display === 'none') {
+        ucPackages.style.display = 'block';
+        ucPackages.scrollIntoView({ behavior: 'smooth' });
+    } else {
+        ucPackages.style.display = 'none';
+    }
+});
+
+document.querySelectorAll('.uc-select-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const ucAmount = btn.dataset.uc;
+        const coinCost = btn.closest('.uc-package').dataset.coin;
+        
+        if (coinBalance < parseInt(coinCost)) {
+            tg.showPopup({
+                title: 'Yetersiz Bakiye',
+                message: `Bu paket için ${coinCost} coin gerekiyor.\nMevcut bakiyen: ${coinBalance} coin`,
+                buttons: [{type: 'ok'}]
+            });
+            return;
+        }
+        
+        tg.showPopup({
+            title: `${ucAmount} UC Seçildi`,
+            message: `PUBG ID'nizi @turancoinsdestek'e gönderin.\n\nMaliyet: ${coinCost} coin`,
+            buttons: [{type: 'ok'}]
+        });
+        
+        const text = `PUBG Mobile UC almak istiyorum. ID: ${userId}. Paket: ${ucAmount} UC. Maliyet: ${coinCost} coin`;
+        window.open(`https://t.me/turancoinsdestek?text=${encodeURIComponent(text)}`, '_blank');
+    });
+});
+
+// Görevler
+const taskLinks = {
+    'telegram': 'https://t.me/turancoinkanal',
+    'instagram': 'https://instagram.com/turancoin'
+};
+
+document.querySelectorAll('.task-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const taskId = btn.dataset.task;
+        const taskCard = btn.closest('.task-card');
+        const link = taskLinks[taskId];
+        
+        // Linki aç
+        window.open(link, '_blank');
+        
+        // 10 saniye sonra coin ekle
+        btn.textContent = 'Bekle...';
+        btn.disabled = true;
+        
+        setTimeout(async () => {
+            try {
+                const reward = taskId === 'telegram' ? 20 : 15;
+                const response = await fetch(API_URL + '/api/add_coins', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ user_id: userId, coins: reward })
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    coinBalance = data.new_balance;
+                    totalEarned = data.total_earned;
+                    updateBalance(true);
+                    showToast(`+${reward} Coin Eklendi!`);
+                    
+                    taskCard.classList.add('completed');
+                    btn.textContent = 'Tamamlandı ✓';
+                }
+            } catch (e) {
+                btn.textContent = 'Git';
+                btn.disabled = false;
+                tg.showPopup({
+                    title: 'Hata',
+                    message: 'Görev tamamlanamadı. Lütfen tekrar deneyin.',
+                    buttons: [{type: 'ok'}]
+                });
+            }
+        }, 10000);
+    });
+});
 tg.ready();

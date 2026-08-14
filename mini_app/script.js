@@ -494,12 +494,13 @@ let minerPlan = 'temel';
 let minerStartTime = null;
 let minerEndTime = null;
 let minerTotalCoins = 0;
+let minerSessionEarned = 0;
 let minerTimerInterval = null;
 
 const minerPlans = {
-    'temel': { name: 'Temel', rate: 1, duration: 3 * 60 * 60, durationText: '3 saat' },
-    'pro': { name: 'Pro', rate: 3, duration: 24 * 60 * 60, durationText: '24 saat' },
-    'apex': { name: 'Apex', rate: 10, duration: 30 * 24 * 60 * 60, durationText: '30 gün' }
+    'temel': { name: 'Temel', rate: 1, durationText: '3 saat' },
+    'pro': { name: 'Pro', rate: 3, durationText: '24 saat' },
+    'apex': { name: 'Apex', rate: 10, durationText: '30 gün' }
 };
 
 const minerCoinRate = 8 / (3 * 60 * 60);
@@ -541,14 +542,11 @@ function updateMinerUI() {
         const s = Math.floor(remaining % 60);
         timerEl.textContent = `Kalan: ${String(h).padStart(2,'0')}s ${String(m).padStart(2,'0')}d ${String(s).padStart(2,'0')}sn`;
         
-        const sessionCoins = passed * minerCoinRate * plan.rate;
-        const totalDisplay = minerTotalCoins + sessionCoins;
+        const totalDisplay = minerTotalCoins + minerSessionEarned;
         coinAmountEl.textContent = totalDisplay.toFixed(5);
         
         if (remaining <= 0) {
-            minerTotalCoins += total * minerCoinRate * plan.rate;
-            stopMiner();
-            showToast('⏹️ Madencilik tamamlandı!');
+            stopMinerFromAPI();
         }
     } else {
         statusBadge.textContent = 'Pasif';
@@ -563,41 +561,82 @@ function updateMinerUI() {
     }
 }
 
-function startMiner() {
-    minerActive = true;
-    minerStartTime = Date.now() / 1000;
-    minerEndTime = minerStartTime + minerPlans[minerPlan].duration;
-    
-    if (minerTimerInterval) clearInterval(minerTimerInterval);
-    minerTimerInterval = setInterval(updateMinerUI, 100);
-    
-    updateMinerUI();
-    showToast('⚡ Madencilik Başladı!');
-    tg.HapticFeedback.notificationOccurred('success');
+async function loadMinerStatus() {
+    try {
+        const response = await fetch(API_URL + '/api/miner_status', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ user_id: userId })
+        });
+        const data = await response.json();
+        
+        if (data.success) {
+            minerPlan = data.plan || 'temel';
+            minerTotalCoins = data.total_coins || 0;
+            
+            if (data.is_active) {
+                minerActive = true;
+                minerStartTime = data.start_time;
+                minerEndTime = data.end_time;
+                minerSessionEarned = data.earned || 0;
+                
+                if (minerTimerInterval) clearInterval(minerTimerInterval);
+                minerTimerInterval = setInterval(updateMinerUI, 1000);
+            } else {
+                minerActive = false;
+                minerSessionEarned = 0;
+            }
+            
+            updateMinerUI();
+        }
+    } catch (e) {
+        console.log('Miner durum yüklenemedi');
+    }
 }
 
-function stopMiner() {
-    if (minerActive) {
-        const now = Date.now() / 1000;
-        const passed = now - minerStartTime;
-        const earnedCoins = passed * minerCoinRate * minerPlans[minerPlan].rate;
-        minerTotalCoins += earnedCoins;
+async function startMinerAPI() {
+    try {
+        const response = await fetch(API_URL + '/api/miner_start', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ user_id: userId, plan: minerPlan })
+        });
+        const data = await response.json();
         
-        if (earnedCoins > 0.01) {
-            const coinsToAdd = Math.floor(earnedCoins);
-            if (coinsToAdd > 0) {
-                fetch(API_URL + '/api/add_coins', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ user_id: userId, coins: coinsToAdd })
-                }).then(res => res.json()).then(data => {
-                    if (data.success) {
-                        coinBalance = data.new_balance;
-                        updateBalance(false);
-                    }
-                }).catch(e => console.log('Coin ekleme hatası'));
-            }
+        if (data.success) {
+            minerActive = true;
+            minerStartTime = Date.now() / 1000;
+            minerEndTime = data.end_time;
+            minerSessionEarned = 0;
+            
+            if (minerTimerInterval) clearInterval(minerTimerInterval);
+            minerTimerInterval = setInterval(updateMinerUI, 1000);
+            
+            updateMinerUI();
+            showToast('⚡ Madencilik Başladı!');
+            tg.HapticFeedback.notificationOccurred('success');
         }
+    } catch (e) {
+        showToast('Başlatma hatası');
+    }
+}
+
+async function stopMinerFromAPI() {
+    try {
+        const response = await fetch(API_URL + '/api/miner_stop', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ user_id: userId })
+        });
+        const data = await response.json();
+        
+        if (data.success) {
+            minerTotalCoins = data.total_coins || minerTotalCoins;
+            minerSessionEarned = 0;
+            loadUserData();
+        }
+    } catch (e) {
+        console.log('Miner durdurma hatası');
     }
     
     minerActive = false;
@@ -613,7 +652,7 @@ document.getElementById('minerBtn').addEventListener('click', () => {
     navItems.forEach(nav => nav.classList.remove('active'));
     Object.keys(pages).forEach(key => pages[key].classList.remove('active'));
     pages['page-miner'].classList.add('active');
-    updateMinerUI();
+    loadMinerStatus();
 });
 
 document.getElementById('minerHomeBtn').addEventListener('click', () => {
@@ -621,13 +660,14 @@ document.getElementById('minerHomeBtn').addEventListener('click', () => {
     navItems[0].classList.add('active');
     Object.keys(pages).forEach(key => pages[key].classList.remove('active'));
     pages['page-home'].classList.add('active');
+    loadMinerStatus();
 });
 
 document.getElementById('minerStartBtn').addEventListener('click', () => {
     if (minerActive) {
-        return; // Kazıyor butonu pasif
+        return;
     } else {
-        startMiner();
+        startMinerAPI();
     }
 });
 
@@ -661,5 +701,5 @@ usernameEl.textContent = firstName + (lastName ? ' ' + lastName : '');
 
 generateRandomWithdrawals();
 loadUserData();
-updateMinerUI();
+loadMinerStatus();
 tg.ready();

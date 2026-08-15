@@ -404,8 +404,8 @@ document.querySelectorAll('.uc-select-btn').forEach(btn => {
 });
 
 const taskLinks = {
-    'telegram': 'https://t.me/turancoinkanal',
-    'instagram': 'https://instagram.com/turancoin'
+    'telegram': 'https://t.me/turancoins',
+    'instagram': 'https://instagram.com/turancoins'
 };
 
 document.querySelectorAll('.task-btn').forEach(btn => {

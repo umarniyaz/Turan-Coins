@@ -231,64 +231,71 @@ function generateRandomWithdrawals() {
     }
 }
 
+// ============ ADSGRAM REKLAM ============
+function showAdsgramAd() {
+    return new Promise((resolve, reject) => {
+        if (typeof window.Adsgram === 'undefined') {
+            reject('Adsgram SDK yok');
+            return;
+        }
+        const AdInstance = window.Adsgram.init({ blockId: 'int-43645' });
+        AdInstance.show().then(() => resolve()).catch(() => reject());
+    });
+}
+
 watchAdBtn.addEventListener('click', async () => {
     if (watchAdBtn.classList.contains('disabled')) return;
     
     watchAdBtn.innerHTML = '<span>⏳ Reklam yükleniyor...</span>';
     watchAdBtn.style.pointerEvents = 'none';
     
-    try {
-        show_11561450().then(async () => {
-            try {
-                const response = await fetch(API_URL + '/api/add_coins', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ user_id: userId, coins: 1 })
-                });
-                const data = await response.json();
-                if (data.success) {
-                    coinBalance = data.new_balance;
-                    totalEarned = data.total_earned;
-                    adsWatched += 1;
-                    
-                    const oldLig = getLig(totalEarned - 1).name;
-                    const newLig = getLig(totalEarned).name;
-                    
-                    spawnCoinRain();
-                    shimmerBalanceCard();
-                    showToast('+1 Coin Eklendi!');
-                    updateBalance(true);
-                    
-                    if (oldLig !== newLig) {
-                        tg.showPopup({
-                            title: '🎉 Lig Atladınız!',
-                            message: `${oldLig} liginden ${newLig} ligine yükseldiniz!`,
-                            buttons: [{type: 'ok'}]
-                        });
-                    }
-                    
-                    tg.HapticFeedback.notificationOccurred('success');
-                }
-            } catch (e) {
-                tg.showPopup({ title: 'Hata', message: 'Coin eklenemedi.', buttons: [{type: 'ok'}] });
-            }
-            
-            watchAdBtn.innerHTML = '<span class="btn-icon">▶</span><span>Reklam İzle</span>';
-            watchAdBtn.style.pointerEvents = 'auto';
-            
-        }).catch(() => {
-            watchAdBtn.innerHTML = '<span class="btn-icon">▶</span><span>Reklam İzle</span>';
-            watchAdBtn.style.pointerEvents = 'auto';
-            tg.showPopup({
-                title: 'Reklam Bulunamadı',
-                message: 'Şu anda reklam yok. Lütfen sonra tekrar deneyin.',
-                buttons: [{type: 'ok'}]
+    showAdsgramAd().then(async () => {
+        try {
+            const response = await fetch(API_URL + '/api/add_coins', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ user_id: userId, coins: 1 })
             });
-        });
-    } catch (e) {
-        watchAdBtn.innerHTML = '<span class="btn-icon">▶</span><span>Reklam İzle</span>';
+            const data = await response.json();
+            if (data.success) {
+                coinBalance = data.new_balance;
+                totalEarned = data.total_earned;
+                adsWatched += 1;
+                
+                const oldLig = getLig(totalEarned - 1).name;
+                const newLig = getLig(totalEarned).name;
+                
+                spawnCoinRain();
+                shimmerBalanceCard();
+                showToast('+1 Coin Eklendi!');
+                updateBalance(true);
+                
+                if (oldLig !== newLig) {
+                    tg.showPopup({
+                        title: '🎉 Lig Atladınız!',
+                        message: `${oldLig} liginden ${newLig} ligine yükseldiniz!`,
+                        buttons: [{type: 'ok'}]
+                    });
+                }
+                
+                tg.HapticFeedback.notificationOccurred('success');
+            }
+        } catch (e) {
+            tg.showPopup({ title: 'Hata', message: 'Coin eklenemedi.', buttons: [{type: 'ok'}] });
+        }
+        
+        watchAdBtn.innerHTML = '<span>Reklam İzle</span>';
         watchAdBtn.style.pointerEvents = 'auto';
-    }
+        
+    }).catch(() => {
+        watchAdBtn.innerHTML = '<span>Reklam İzle</span>';
+        watchAdBtn.style.pointerEvents = 'auto';
+        tg.showPopup({
+            title: 'Reklam Bulunamadı',
+            message: 'Şu anda reklam yok. Lütfen sonra tekrar deneyin.',
+            buttons: [{type: 'ok'}]
+        });
+    });
 });
 
 const navItems = document.querySelectorAll('.nav-item');

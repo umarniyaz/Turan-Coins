@@ -232,24 +232,7 @@ function generateRandomWithdrawals() {
 }
 
 // ============ ADSGRAM REKLAM ============
-function showAdsgramAd() {
-    return new Promise((resolve, reject) => {
-        if (typeof window.Adsgram === 'undefined') {
-            reject('Adsgram SDK yok');
-            return;
-        }
-        const AdInstance = window.Adsgram.init({ blockId: 'int-43645' });
-        AdInstance.show().then(() => resolve()).catch(() => reject());
-    });
-}
-
-watchAdBtn.addEventListener('click', async () => {
-    if (watchAdBtn.classList.contains('disabled')) return;
-    
-    watchAdBtn.innerHTML = '<span>⏳ Reklam yükleniyor...</span>';
-    watchAdBtn.style.pointerEvents = 'none';
-    
-    showAdsgramAd().then(async () => {
+    show_11561450().then(async () => {
         try {
             const response = await fetch(API_URL + '/api/add_coins', {
                 method: 'POST',
